@@ -4,12 +4,12 @@ from nbuild.stdenv.autotools import build_autotools_package
 
 
 @package(
-    id="stable::sys-bin/which#2.21.0",
+    id="stable::sys-bin/util-linux#2.32.1",
 )
 def build():
     build_autotools_package(
         fetch=lambda: fetch_url(
-            url="http://ftp.gnu.org/gnu/which/which-2.21.tar.gz",
-            sha256="f4a245b94124b377d8b49646bf421f9155d36aa7614b6ebf83705d3ffc76eaad",
+            url="https://www.kernel.org/pub/linux/utils/util-linux/v2.32/util-linux-2.32.1.tar.xz",
+            sha256="86e6707a379c7ff5489c218cfaf1e3464b0b95acf7817db0bc5f179e356a67b2",
         ),
     )
