@@ -4,6 +4,13 @@ from nbuild.stdenv.autotools import build_autotools_package
 
 @package(
     id="stable::sys-dev/autoconf#2.69.0",
+    run_dependencies={
+        "stable::sys-bin/perl": "=5.28.0",
+        "stable::shell/bash": "=4.4.18",
+        "stable::sys-bin/sed": "=4.5.0",
+        "stable::sys-lib/acl": "=4.4.18",
+        "stable::sys-bin/coreutils": "=8.30.0",
+    }
 )
 def build():
     build_autotools_package(

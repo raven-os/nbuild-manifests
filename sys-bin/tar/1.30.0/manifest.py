@@ -6,6 +6,10 @@ from nbuild.stdenv.autotools.autoconf import do_configure
 
 @package(
     id="stable::sys-bin/tar#1.30.0",
+    run_dependencies={
+        "stable::sys-lib/acl": "=2.2.53",
+        "stable::sys-lib/attr": "=2.4.48",
+    }
 )
 def build():
     build_autotools_package(

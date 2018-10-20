@@ -4,9 +4,13 @@ from nbuild.stdenv.autotools import build_autotools_package
 
 
 @package(
-    id="stable::sys-lib/sed#4.5.0",
+    id="stable::sys-bin/sed#4.5.0",
+    run_dependencies={
+        'stable::sys-lib/acl': '2.2.53',
+        'stable::sys-lib/attr': '2.4.48',
+    }
 )
-def build_helloworld():
+def build():
     build_autotools_package(
         fetch=lambda: fetch_url(
             url="http://ftp.gnu.org/gnu/sed/sed-4.5.tar.xz",

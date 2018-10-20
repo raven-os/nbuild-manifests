@@ -7,6 +7,9 @@ from nbuild.stdenv.autotools.make import do_make
 
 @package(
     id="stable::sys-bin/grep#3.1.0",
+    run_dependencies={
+        'stable::sys-lib/PCRE': '=8.41.0',
+    }
 )
 def build():
     build_autotools_package(

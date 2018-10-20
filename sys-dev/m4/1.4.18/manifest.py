@@ -12,6 +12,9 @@ def configure():
 
 @package(
     id="stable::sys-dev/m4#1.4.18",
+    run_dependencies={
+        "stable::sys-lib/libc": ">=2.27.0",
+    }
 )
 def build():
     build_autotools_package(
