@@ -7,7 +7,7 @@ from nbuild.cmd import cmd
 from nbuild.stdenv.package import get_package
 
 
-def install_python3():
+def install():
     package = get_package()
     do_make(target="install")
     cmd(f"chmod 755 /{package.install_dir}/usr/lib/libpython3.7m.so")
@@ -23,6 +23,9 @@ def install_python3():
 
 @package(
     id="stable::python/python#3.7.0",
+    run_dependencies={
+        "stable::sys-lib/libc": "2.28.0",
+    }
 )
 def build():
     build_autotools_package(
@@ -45,5 +48,5 @@ def build():
                 "--with-ensurepip=yes"
             ]
         ),
-        install=install_python3,
+        install=install,
     )

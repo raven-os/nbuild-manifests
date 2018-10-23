@@ -4,7 +4,6 @@ from nbuild.stdenv.autotools import build_autotools_package
 from nbuild.cmd import cmd
 from nbuild.stdenv.autotools.autoconf import do_configure
 from nbuild.stdenv.package import get_package
-from nbuild.stdenv.autotools.make import do_make
 from nbuild.pushd import pushd
 
 
@@ -16,13 +15,17 @@ def configure():
         cmd("sed -i '/unistd/a #include <sys/sysmacros.h>' gl/lib/mountlist.c")
         cmd("echo '#define _IO_IN_BACKUP 0x100' >> gl/lib/stdio-impl.h")
     do_configure(
-                 extra_configure_flags=[
-                     f"localstatedir={package.install_dir}/var/lib/locate",
-                 ])
+         extra_configure_flags=[
+             f"--localstatedir={package.install_dir}/var/lib/locate",
+         ])
 
 
 @package(
     id="stable::sys-bin/findutils#4.6.0",
+    run_dependencies={
+        "stable::sys-lib/libc": "2.28.0",
+        "stable::shell/bash": "4.4.18",
+    }
 )
 def build():
     build_autotools_package(

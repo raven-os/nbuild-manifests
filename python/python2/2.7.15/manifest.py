@@ -7,27 +7,32 @@ from nbuild.cmd import cmd
 from nbuild.stdenv.package import get_package
 
 
-def install_python3():
-    package = get_package()
+def install():
+    pk = get_package()
     do_make(target="install")
-    cmd(f"chmod 755 /{package.install_dir}/usr/lib/libpython3.7m.so")
-    cmd(f"chmod 755 /{package.install_dir}/usr/lib/libpython3.so")
-
-    cmd(f"install -dm755 /{package.install_dir}/usr/share/doc/python-3.7.0/html")
-    cmd("tar --strip-components=1 "
-        "--no-same-owner "
-        "--no-same-permissions "
-        f"-C /{package.install_dir}/usr/share/doc/python-3.7.0/html "
-        f"-xf /{package.download_dir}/python-3.7.0-docs-html.tar.bz2")
+    cmd(f'chmod -v 755 {pk.install_dir}/usr/lib/libpython2.7.so.1.0')
 
 
 @package(
     id="stable::python/python#2.7.15",
+    run_dependencies={
+        "stable::sys-lib/libc": "2.28.0",
+    }
 )
 def build():
     build_autotools_package(
         fetch=lambda: fetch_url(
-            url= "https://www.python.org/ftp/python/2.7.15/Python-2.7.15.tar.xz",
-            sha256= "22d9b1ac5b26135ad2b8c2901a9413537e08749a753356ee913c84dbd2df5574",
+            url="https://www.python.org/ftp/python/2.7.15/Python-2.7.15.tar.xz",
+            sha256="22d9b1ac5b26135ad2b8c2901a9413537e08749a753356ee913c84dbd2df5574",
         ),
+        configure=lambda: do_configure(
+            extra_configure_flags=[
+                ' --enable-shared',
+                '--with-system-expat',
+                '--with-system-ffi',
+                '--with-ensurepip=yes',
+                '--enable-unicode=ucs4',
+            ]
+        ),
+        install=install,
     )

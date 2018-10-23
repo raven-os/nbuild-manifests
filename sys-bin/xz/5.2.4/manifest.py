@@ -21,6 +21,13 @@ def install():
 
 @package(
     id="stable::sys-bin/xz#5.2.4",
+    run_dependencies={
+        "stable::sys-lib/libc": "2.28.0",
+        "stable::shell/bash": "4.4.18",
+        "stable::sys-bin/less": "530.0.0",
+        "stable::sys-bin/util-linux": "2.32.1",
+        "stable::sys-bin/grep": "3.1.0",
+    }
 )
 def build():
     build_autotools_package(

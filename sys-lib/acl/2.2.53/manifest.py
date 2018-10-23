@@ -34,6 +34,9 @@ def install():
 
 @package(
     id="stable::sys-lib/acl#2.2.53",
+    run_dependencies={
+        'stable::sys-lib/attr': '2.4.48',
+    }
 )
 def build():
     build_autotools_package(

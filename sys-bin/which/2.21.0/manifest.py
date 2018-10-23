@@ -6,7 +6,7 @@ from nbuild.stdenv.autotools import build_autotools_package
 @package(
     id="stable::sys-bin/which#2.21.0",
     run_dependencies={
-        "stable::sys-lib/libc": ">=2.27.0",
+        "stable::sys-lib/libc": ">=2.28.0",
     }
 )
 def build():

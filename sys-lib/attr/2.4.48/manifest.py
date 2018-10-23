@@ -17,6 +17,9 @@ def install():
 
 @package(
     id='stable::sys-lib/attr#2.4.48',
+    run_dependencies={
+        "stable::sys-lib/libc": "2.27.0",
+    }
 )
 def build():
     build_autotools_package(

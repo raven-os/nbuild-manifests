@@ -1,13 +1,10 @@
 import os
 from textwrap import dedent
 from nbuild.cmd import cmd
-from nbuild.log import ilog
 from nbuild.pushd import pushd
-from nbuild.pushenv import pushenv
 from nbuild.stdenv.package import package, get_package
 from nbuild.stdenv.fetch import fetch_urls
 from nbuild.stdenv.install import install_file, make_keeper
-from nbuild.stdenv.extract import extract_tarballs
 from nbuild.stdenv.autotools import build_autotools_package
 from nbuild.stdenv.autotools.make import do_make
 from nbuild.stdenv.autotools.autoconf import do_configure

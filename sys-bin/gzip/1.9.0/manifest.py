@@ -15,6 +15,9 @@ def configure():
 
 @package(
     id="stable::sys-bin/gzip#1.9.0",
+    run_dependencies={
+        "stable::shell/bash": "4.4.18",
+    }
 )
 def build():
     build_autotools_package(

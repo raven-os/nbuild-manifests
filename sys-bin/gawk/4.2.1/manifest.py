@@ -11,7 +11,7 @@ import os
 
 def configure():
     package = get_package()
-    os.environ.pop('LD')
+    # os.environ.pop('LD')
     cmd("sed -i 's/extras//' ../Makefile.in")
     do_configure()
 
@@ -26,6 +26,12 @@ def install():
 
 @package(
     id="stable::sys-bin/gawk#4.2.1",
+    run_dependencies={
+        "stable::sys-lib/libc": "2.28.0",
+        "stable::sys-lib/mpfr": "4.0.1",
+        "stable::sys-lib/readline": "4.0.1",
+        "stable::sys-lib/GMP": "6.1.2",
+    }
 )
 def build():
     build_autotools_package(

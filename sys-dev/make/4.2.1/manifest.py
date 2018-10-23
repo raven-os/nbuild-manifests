@@ -15,6 +15,9 @@ def configure():
 
 @package(
     id="stable::sys-dev/make#4.2.1",
+    run_dependencies={
+        "stable::sys-lib/guile": "2.2.4",
+    }
 )
 def build():
     build_autotools_package(

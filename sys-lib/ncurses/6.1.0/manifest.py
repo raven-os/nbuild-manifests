@@ -5,7 +5,6 @@ from nbuild.stdenv.autotools.make import do_make
 from nbuild.stdenv.autotools.autoconf import do_configure
 from nbuild.stdenv.package import get_package
 from nbuild.cmd import cmd
-from nbuild.pushd import pushd
 import os
 
 
@@ -34,10 +33,10 @@ def install():
 
     os.mkdir(f'{package.install_dir}/usr/lib/pkgconfig')
 
-    cmd('for lib in ncurses form panel menu;' \
-        f' do rm -f {package.install_dir}/usr/lib/lib${{lib}}.so; ' \
-        f' echo "INPUT(-l${{lib}}w)" > {package.install_dir}/usr/lib/lib${{lib}}.so;' \
-        f' ln -sf ${{lib}}w.pc {package.install_dir}/usr/lib/pkgconfig/${{lib}}.pc;' \
+    cmd('for lib in ncurses form panel menu;'
+        f' do rm -f {package.install_dir}/usr/lib/lib${{lib}}.so; '
+        f' echo "INPUT(-l${{lib}}w)" > {package.install_dir}/usr/lib/lib${{lib}}.so;'
+        f' ln -sf ${{lib}}w.pc {package.install_dir}/usr/lib/pkgconfig/${{lib}}.pc;'
         ' done')
 
     cmd(f'rm -f {package.install_dir}/usr/lib/libcursesw.so')
@@ -50,6 +49,9 @@ def install():
 
 @package(
     id="stable::sys-lib/ncurses#6.1.0",
+    run_dependencies={
+        "stable::sys-lib/libc": "2.28.0",
+    }
 )
 def build():
     build_autotools_package(

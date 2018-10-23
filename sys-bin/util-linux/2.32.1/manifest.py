@@ -5,6 +5,10 @@ from nbuild.stdenv.autotools import build_autotools_package
 
 @package(
     id="stable::sys-bin/util-linux#2.32.1",
+    run_dependencies={
+        "stable::sys-lib/libc": "=2.28.0",
+        "stable::sys-lib/ncurses": "=6.1.0",
+    }
 )
 def build():
     build_autotools_package(

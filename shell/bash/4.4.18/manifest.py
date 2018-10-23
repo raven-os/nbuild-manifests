@@ -10,13 +10,13 @@ import os
 def install():
     pk = get_package()
     do_make(target='install')
-    cmd(f'ln -s {pk.install_dir}/usr/bin/bash {pk.install_dir}/usr/bin/sh')
+    cmd(f'ln -s /usr/bin/bash {pk.install_dir}/usr/bin/sh')
 
 
 @package(
     id="stable::shell/bash#4.4.18",
     run_dependencies={
-        "stable::sys-lib/libc": ">=2.27.0",
+        "stable::sys-lib/libc": ">=2.28.0",
         "stable::sys-lib/ncurses": ">=6.1.0",
         "stable::sys-lib/readline": ">=7.0.0",
     }

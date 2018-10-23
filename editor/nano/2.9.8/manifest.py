@@ -17,6 +17,11 @@ def install():
 
 @package(
     id="stable::editor/nano#2.9.8",
+    run_dependencies={
+        "stable::sys-lib/libc": "2.28.0",
+        "stable::sys-lib/ncurses": ">=6.1.0",
+        "stable::sys-bin/file": ">=5.34.0",
+    }
 )
 def build():
     build_autotools_package(

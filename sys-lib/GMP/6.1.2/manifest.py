@@ -30,6 +30,9 @@ def install():
 
 @package(
     id="stable::sys-lib/GMP#6.1.2",
+    run_dependencies={
+        "stable::sys-lib/libc": "2.28.0",
+    }
 )
 def build():
     build_autotools_package(

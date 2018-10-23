@@ -41,7 +41,7 @@ def compile():
 @package(
     id="stable::sys-bin/perl#5.28.0",
     run_dependencies={
-        "stable::sys-lib/libc": ">=2.27.0",
+        "stable::sys-lib/libc": ">=2.28.0",
     }
 )
 def build():

@@ -4,32 +4,47 @@ from nbuild.stdenv.fetch import fetch_urls
 from nbuild.stdenv.autotools import build_autotools_package
 from nbuild.stdenv.autotools.make import do_make
 from nbuild.cmd import cmd
+from nbuild.stdenv.patch import apply_patches
 from nbuild.stdenv.package import get_package
+import os
 
 
-def configure():
-    with pushd(".."):
-        # cmd("sed -i 's@\(ln -s -f \)$(PREFIX)/bin/@\1@' Makefile")
-        # sed -i "s@(PREFIX)/man@(PREFIX)/share/man@g" Makefile
-        cmd("make -f Makefile-libbz2_so")
-        cmd("make clean")
+def patch():
+    apply_patches()
+    pk = get_package()
+    cmd(f"sed -i 's@\\(ln -s -f \\){pk.install_dir}/usr/bin/@\1@' Makefile")
+    cmd(f'sed -i "s@(PREFIX)/man@{pk.install_dir}/usr/share/man@g" Makefile')
+    cmd("make -f Makefile-libbz2_so")
+    cmd("make clean")
 
 
 def install():
-    package = get_package()
+    pk = get_package()
     do_make(target="install", folder="..",
-            extra_args=["PREFIX={}".format(package.install_dir)]),
+            extra_args=[f"PREFIX={pk.install_dir}/usr"]),
     with pushd(".."):
-        cmd(f"cp bzip2-shared /{package.install_dir}/bin/bzip2")
-        cmd(f"cp -a libbz2.so* /{package.install_dir}/lib")
-        cmd(f"mkdir -p /{package.install_dir}/usr/lib/libbz2.so")
-        cmd(f"ln -s libbz2.so.1.0 /{package.install_dir}/usr/lib/libbz2.so")
-        cmd(f"ln -fs bzip2 /{package.install_dir}/bin/bunzip2")
-        cmd(f"ln -fs bzip2 /{package.install_dir}/bin/bzcat")
+        bin_dir = f'{pk.install_dir}/bin'
+        lib_dir = f'{pk.install_dir}/lib'
+        usrlib_dir = f'{pk.install_dir}/usr/lib/'
+
+        os.makedirs(bin_dir)
+        os.makedirs(lib_dir)
+
+        cmd(f"cp bzip2-shared {bin_dir}/bzip2")
+        cmd(f"cp -a libbz2.so* {lib_dir}")
+
+        cmd(f"mkdir -p {usrlib_dir}")
+        cmd(f"ln -s libbz2.so.1.0 {usrlib_dir}/libbz2.so")
+        cmd(f'rm -v {pk.install_dir}/usr/bin/{{bunzip2,bzcat,bzip2}}')
+        cmd(f"ln -fs bzip2 {bin_dir}/bunzip2")
+        cmd(f"ln -fs bzip2 {bin_dir}/bzcat")
 
 
 @package(
     id="stable::sys-bin/bzip2#1.0.6",
+    run_dependencies={
+        "stable::sys-lib/libc": "2.28.0",
+    }
 )
 def build():
     build_autotools_package(
@@ -43,7 +58,9 @@ def build():
                 'sha256': "35e3bbd9642af51fef2a8a83afba040d272da42d7e3a251d8e43255a7b496702",
             }
         ]),
-        configure=configure,
+        patch=patch,
+        configure=lambda: None,
         compile=lambda: do_make(folder=".."),
-        install=install
+        check=lambda: None,
+        install=install,
     )

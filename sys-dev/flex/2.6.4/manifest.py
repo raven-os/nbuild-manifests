@@ -1,4 +1,4 @@
-from nbuild.stdenv.package import package
+from nbuild.stdenv.package import package, get_package
 from nbuild.stdenv.fetch import fetch_url
 from nbuild.stdenv.autotools import build_autotools_package
 from nbuild.stdenv.autotools.autoconf import do_configure
@@ -15,15 +15,16 @@ def configure():
 
 
 def install():
+    pk = get_package()
     with pushd('../'):
         do_make(binary='build/Makefile', target='install')
-        cmd('ln -sv flex /usr/bin/lex')
+        cmd(f'ln -sv flex {pk.install_dir}/usr/bin/lex')
 
 
 @package(
     id="stable::sys-dev/flex#2.6.4",
     run_dependencies={
-        "stable::sys-lib/libc": ">=2.27.0",
+        "stable::sys-lib/libc": ">=2.28.0",
     }
 )
 def build():

@@ -5,7 +5,6 @@ from nbuild.stdenv.autotools.make import do_make
 from nbuild.stdenv.autotools.autoconf import do_configure
 from nbuild.stdenv.package import get_package
 from nbuild.cmd import cmd
-from nbuild.pushd import pushd
 import os
 
 
@@ -43,12 +42,16 @@ def install():
 
 @package(
     id="stable::sys-lib/readline#7.0.0",
+    run_dependencies={
+        "stable::sys-lib/libc": "2.28.0",
+        "stable::sys-lib/ncurses": "6.1.0",
+    }
 )
 def build():
     build_autotools_package(
         fetch=lambda: fetch_url(
-            url = "http://ftp.gnu.org/gnu/readline/readline-7.0.tar.gz",
-            sha256 = "750d437185286f40a369e1e4f4764eda932b9459b5ec9a731628393dd3d32334",
+            url="http://ftp.gnu.org/gnu/readline/readline-7.0.tar.gz",
+            sha256="750d437185286f40a369e1e4f4764eda932b9459b5ec9a731628393dd3d32334",
         ),
         configure=configure,
         compile=compile,
