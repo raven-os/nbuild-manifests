@@ -21,6 +21,9 @@ def install():
 
 @package(
     id="stable::sys-lib/zlib#1.2.11",
+    run_dependencies={
+        "stable::sys-lib/libc": "2.28.0",
+    }
 )
 def build():
     build_autotools_package(

@@ -3,6 +3,7 @@ from nbuild.stdenv.fetch import fetch_url
 from nbuild.stdenv.autotools import build_autotools_package
 from nbuild.stdenv.autotools.autoconf import do_configure
 from nbuild.stdenv.autotools.make import do_make
+from nbuild.cmd import cmd
 import os
 
 
@@ -17,6 +18,9 @@ def install():
 
 @package(
     id="stable::sys-lib/PCRE#8.41.0",
+    run_dependencies={
+        "stable::sys-lib/libc": "2.28.0",
+    }
 )
 def build():
     build_autotools_package(

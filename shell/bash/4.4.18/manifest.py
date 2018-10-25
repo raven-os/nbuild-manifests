@@ -4,7 +4,6 @@ from nbuild.stdenv.autotools import build_autotools_package
 from nbuild.stdenv.autotools.autoconf import do_configure
 from nbuild.cmd import cmd
 from nbuild.stdenv.autotools.make import do_make
-import os
 
 
 def install():

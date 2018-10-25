@@ -18,6 +18,9 @@ def install():
 
 @package(
     id="stable::sys-lib/libcap#2.25.0",
+    run_dependencies={
+        "stable::sys-lib/libc": "2.28.0",
+    }
 )
 def build():
     build_autotools_package(

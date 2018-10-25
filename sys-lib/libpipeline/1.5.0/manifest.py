@@ -4,7 +4,7 @@ from nbuild.stdenv.autotools import build_autotools_package
 
 
 @package(
-    id="stable::sys-lib/libseccomp#2.3.3",
+    id="stable::sys-lib/libpipeline#1.5.0",
     run_dependencies={
         "stable::sys-lib/libc": "2.28.0",
     }
@@ -12,7 +12,7 @@ from nbuild.stdenv.autotools import build_autotools_package
 def build():
     build_autotools_package(
         fetch=lambda: fetch_url(
-            url="https://github.com/seccomp/libseccomp/releases/download/v2.3.3/libseccomp-2.3.3.tar.gz",
-            sha256="7fc28f4294cc72e61c529bedf97e705c3acf9c479a8f1a3028d4cd2ca9f3b155",
+            url="http://download.savannah.gnu.org/releases/libpipeline/libpipeline-1.5.0.tar.gz",
+            sha256="0d72e12e4f2afff67fd7b9df0a24d7ba42b5a7c9211ac5b3dcccc5cd8b286f2b",
         ),
     )

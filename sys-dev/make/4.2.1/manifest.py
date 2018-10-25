@@ -16,7 +16,7 @@ def configure():
 @package(
     id="stable::sys-dev/make#4.2.1",
     run_dependencies={
-        "stable::sys-lib/guile": "2.2.4",
+        "stable::sys-lib/libc": "2.28.0",
     }
 )
 def build():

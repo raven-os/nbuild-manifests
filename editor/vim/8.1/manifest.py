@@ -6,7 +6,6 @@ from nbuild.stdenv.package import get_package
 from nbuild.stdenv.autotools.make import do_make
 from nbuild.pushd import pushd
 from nbuild.cmd import cmd
-import os
 
 
 def configure():
@@ -26,6 +25,7 @@ def install():
         docdir = f"/{package.install_dir}/usr/share/doc/"
         cmd(f'mkdir -p {docdir}')
         cmd(f'ln -sv ../vim/vim81/doc {docdir}/vim-8.1')
+
 
 @package(
     id="stable::editor/vim#8.1.0",
