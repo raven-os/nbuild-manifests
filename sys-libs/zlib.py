@@ -29,6 +29,10 @@ from stdlib.manifest import manifest
     ],
 )
 def build(build):
+
+    # The configure script of zlib doesn't have all the usual flags, so we can't
+    # rely on the template to help us here. A manual call is required.
+
     packages = autotools.build(
         configure=lambda: stdlib.cmd('''
             ./configure \
