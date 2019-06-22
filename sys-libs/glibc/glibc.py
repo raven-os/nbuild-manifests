@@ -151,6 +151,8 @@ def split_glibc():
     ],
 )
 def build(build):
+
+    # TODO FIXME The following will be removed in a futur pass of glibc
     os.environ['GCC_INCDIR'] = '/usr/lib/gcc/x86_64-pc-linux-gnu/8.2.0/include'
     os.environ['CC'] = 'gcc -isystem /usr/lib/gcc/x86_64-pc-linux-gnu/8.2.0/include -isystem /usr/include '
 
