@@ -41,7 +41,7 @@ def build(build):
         '''),
     )
 
-    # Packages member of `raven-os/essentials` should explicitely state all
+    # Packages member of `raven-os/essentials` should explicitly state all
     # of their dependencies, including indirect ones.
     packages['sys-libs/zlib'].rdepends_on('raven-os/corefs', '*')
 
