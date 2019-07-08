@@ -37,7 +37,7 @@ def build(build):
         split=stdlib.split.drain_all.drain_all,
     )
 
-    # Packages member of `raven-os/essentials` should explicitely state all
+    # Packages member of `raven-os/essentials` should explicitly state all
     # of their dependencies, including indirect ones.
     packages['sys-apps/man-pages'].rdepends_on('raven-os/corefs', '*')
 
