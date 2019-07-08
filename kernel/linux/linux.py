@@ -67,13 +67,13 @@ def build(build):
     # Drain documentation
     # packages['kernel/linux-doc'].drain_build_cache('Documentation/*', 'usr/doc/linux/')
 
-    # Remove the dependencie of `kernel/linux-dev` to `kernel/linux`
+    # Remove the dependency of `kernel/linux-dev` to `kernel/linux`
     packages['kernel/linux-dev'].run_dependencies = dict()
 
     # Change the description of kernel/linux-dev
-    packages['kernel/linux-dev'].description = 'Headers to compile or write a software based on the Linux kernel.'
+    packages['kernel/linux-dev'].description = 'Headers to compile or write software based on the Linux kernel.'
 
-    # Packages member of `raven-os/essentials` should explicitely state all
+    # Packages member of `raven-os/essentials` should explicitly state all
     # of their dependencies, including indirect ones.
     packages['kernel/linux'].rdepends_on('raven-os/corefs', '*')
 
