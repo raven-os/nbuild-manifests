@@ -10,12 +10,12 @@ from stdlib.manifest import manifest
     name='file',
     category='sys-apps',
     description='''
-    A compression and decompression library.
+    A command to recognize the type of data contained in a file.
     ''',
-    tags=['gnu', 'compression', 'decompression', 'gzip'],
+    tags=['gnu', 'file', 'filetype'],
     maintainer='grange_c@raven-os.org',
     licenses=[stdlib.license.License.CUSTOM],
-    upstream_url='https://zlib.net/',
+    upstream_url='https://www.darwinsys.com/file/',
     kind=stdlib.kind.Kind.EFFECTIVE,
     versions_data=[
         {
@@ -31,7 +31,7 @@ from stdlib.manifest import manifest
 def build(build):
     packages = autotools.build()
 
-    # Packages member of `raven-os/essentials` should explicitely state all
+    # Packages member of `raven-os/essentials` should explicitly state all
     # of their dependencies, including indirect ones.
     packages['sys-apps/file'].rdepends_on('raven-os/corefs', '*')
 
