@@ -17,7 +17,7 @@ from stdlib.manifest import manifest
     ''',
     tags=['man', 'libc', 'linux', 'kernel'],
     maintainer='grange_c@raven-os.org',
-    licenses=[stdlib.license.License.GPL_V3, stdlib.license.License.CUSTOM],  # TODO Switch to GPL
+    licenses=[stdlib.license.License.GPL, stdlib.license.License.CUSTOM],
     upstream_url='https://www.kernel.org/doc/man-pages/',
     kind=stdlib.kind.Kind.EFFECTIVE,
     versions_data=[
