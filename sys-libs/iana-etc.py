@@ -1,8 +1,9 @@
 #!/usr/bin/env python3.6
 # -*- coding: utf-8 -*-
 
-import stdlib.fetch
-from stdlib.package import Package, PackageID
+import stdlib
+from stdlib.template import basic
+from stdlib.template.make import make
 from stdlib.manifest import manifest
 
 
@@ -21,32 +22,28 @@ from stdlib.manifest import manifest
         {
             'semver': '2.30.0',
             'fetch': [{
-                    'file': './protocols',
-                }, {
-                    'file': './services',
+                    'url': 'http://anduin.linuxfromscratch.org/LFS/iana-etc-2.30.tar.bz2',
+                    'sha256': 'b9a6874fb20012836efef75452ef2acae624022d680feeb1994d73facba3f20d',
                 },
             ],
         },
     ],
 )
+#                    'file': './protocols',
+#                }, {
+#                    'file': './services',
 def build(build):
 
-    stdlib.fetch.fetch()
-
-    iana = Package(
-        PackageID(
-            build.manifest.metadata.name,
-        ),
+    packages = basic.build(
+        compile=make,
     )
 
     # Drain protocols and services
-    iana.drain_build_cache('protocols', 'etc/')
-    iana.drain_build_cache('services', 'etc/')
+    packages['sys-libs/iana-etc'].drain_build_cache('protocols', 'etc/')
+    packages['sys-libs/iana-etc'].drain_build_cache('services', 'etc/')
 
     # Packages member of `raven-os/essentials` should explicitly state all
     # of their dependencies, including indirect ones.
-    iana.rdepends_on('raven-os/corefs', '*')
+    packages['sys-libs/iana-etc'].rdepends_on('raven-os/corefs', '*')
 
-    return {
-        iana.id.short_name(): iana,
-    }
+    return packages
