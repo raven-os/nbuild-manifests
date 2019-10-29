@@ -4,6 +4,7 @@
 import os
 import stdlib
 import stdlib.package
+from textwrap import dedent
 from stdlib.manifest import manifest
 
 
@@ -107,11 +108,92 @@ def build(build):
     )
     corefs.make_symlink('../run', 'var/run')
 
-    # Change permission of /root, /tmp and /var/tmp
     with stdlib.pushd(corefs.wrap_cache):
+
+        # Change permission of /root, /tmp and /var/tmp
         os.chmod('root', 0o700)
         os.chmod('tmp', 0o1777)
         os.chmod('var/tmp', 0o1777)
+
+        # Write a default etc/passwd
+        with open('etc/passwd', 'w+') as passwd:
+            passwd.write(dedent('''\
+            root:x:0:0:root:/root:/bin/bash
+            nobody:x:65534:65534:nobody:/var/empty:/bin/false
+            '''))
+
+        # Write a default etc/group
+        with open('etc/group', 'w+') as group:
+            group.write(dedent('''\
+            root:x:0:
+            bin:x:1:
+            sys:x:2:
+            kmem:x:3:
+            tty:x:4:
+            tape:x:5:
+            daemon:x:6:
+            floppy:x:7:
+            disk:x:8:
+            lp:x:9:
+            dialout:x:10:
+            audio:x:11:
+            video:x:12:
+            utmp:x:13:
+            usb:x:14:
+            wheel:x:15:
+            users:x:999:
+            '''))
+
+        # Write a default etc/shells
+        with open('etc/shells', 'w+') as shells:
+            shells.write(dedent('''\
+            #
+            # Raven-OS - /etc/shells
+            #   - Valid login shells -
+            #
+
+            /bin/bash
+            /bin/csh
+            /bin/dash
+            /bin/esh
+            /bin/fish
+            /bin/ksh
+            /bin/mksh
+            /bin/sash
+            /bin/sh
+            /bin/tcsh
+            /bin/zsh
+            '''))
+
+        # Write a default etc/hosts
+        with open('etc/hosts', 'w+') as hosts:
+            hosts.write(dedent('''\
+            #
+            # Raven-OS - /etc/hosts
+            #
+
+            # IPv4 and IPv6 localhost aliases
+            127.0.0.1	localhost.localdomain localhost
+            ::1		localhost.localdomain localhost
+
+            '''))
+
+        # Write a default etc/hostname
+        with open('etc/hostname', 'w+') as hostname:
+            hostname.write(dedent('''\
+            raven-os
+            '''))
+
+        # Write a default etc/resolv.conf
+        with open('etc/resolv.conf', 'w+') as resolv:
+            resolv.write(dedent('''\
+            #
+            # Raven-OS - /etc/resolv.conf
+            #
+
+            nameserver 8.8.8.8
+            nameserver 8.8.4.4
+            '''))
 
     return {
         corefs.id.full_name(): corefs
