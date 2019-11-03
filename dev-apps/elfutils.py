@@ -10,7 +10,7 @@ from stdlib.manifest import manifest
 
 @manifest(
     name='elfutils',
-    category='sys-dev',
+    category='dev-apps',
     description='''
     Utilities to handle ELF object files and DWARF debugging informations.
     ''',
@@ -40,13 +40,13 @@ def build(build):
     )
 
     # Manually install missing PC files
-    packages['sys-dev/elfutils'].drain_build_cache(
+    packages['dev-apps/elfutils'].drain_build_cache(
         'config/libelf.pc',
         'usr/lib/pkgconfig/'
     )
 
     # Packages member of `raven-os/essentials` should explicitly state all
     # of their dependencies, including indirect ones.
-    packages['sys-dev/elfutils'].rdepends_on('raven-os/corefs', '*')
+    packages['dev-apps/elfutils'].requires('raven-os/corefs')
 
     return packages

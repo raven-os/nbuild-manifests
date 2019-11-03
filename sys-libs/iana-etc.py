@@ -29,9 +29,6 @@ from stdlib.manifest import manifest
         },
     ],
 )
-#                    'file': './protocols',
-#                }, {
-#                    'file': './services',
 def build(build):
 
     packages = basic.build(
@@ -44,6 +41,6 @@ def build(build):
 
     # Packages member of `raven-os/essentials` should explicitly state all
     # of their dependencies, including indirect ones.
-    packages['sys-libs/iana-etc'].rdepends_on('raven-os/corefs', '*')
+    packages['sys-libs/iana-etc'].requires('raven-os/corefs')
 
     return packages

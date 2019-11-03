@@ -40,6 +40,6 @@ def build(build):
 
     # Packages member of `raven-os/essentials` should explicitly state all
     # of their dependencies, including indirect ones.
-    packages['sys-apps/findutils'].rdepends_on('raven-os/corefs', '*')
+    packages['sys-apps/findutils'].requires('raven-os/corefs')
 
     return packages

@@ -10,7 +10,7 @@ from stdlib.manifest import manifest
 
 @manifest(
     name='gettext',
-    category='sys-dev',
+    category='dev-apps',
     description='''
     GNU internationalization library and utilities.
     ''',
@@ -36,11 +36,11 @@ def build(build):
     )
 
     # Make it executable
-    with stdlib.pushd(packages['sys-dev/gettext'].wrap_cache):
+    with stdlib.pushd(packages['dev-apps/gettext'].wrap_cache):
         os.chmod('usr/lib64/preloadable_libintl.so', 0o0755)
 
     # Packages member of `raven-os/essentials` should explicitly state all
     # of their dependencies, including indirect ones.
-    packages['sys-dev/gettext'].rdepends_on('raven-os/corefs', '*')
+    packages['dev-apps/gettext'].requires('raven-os/corefs')
 
     return packages

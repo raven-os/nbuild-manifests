@@ -38,6 +38,6 @@ def build(build):
 
     # Packages member of `raven-os/essentials` should explicitly state all
     # of their dependencies, including indirect ones.
-    packages['dev-apps/meson'].rdepends_on('raven-os/corefs', '*')
+    packages['dev-apps/meson'].requires('raven-os/corefs')
 
     return packages

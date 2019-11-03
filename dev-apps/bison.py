@@ -9,7 +9,7 @@ from stdlib.manifest import manifest
 
 @manifest(
     name='bison',
-    category='sys-dev',
+    category='dev-apps',
     description='''
     A general-purpose parser generator.
     ''',
@@ -36,12 +36,12 @@ def build(build):
 
     packages = autotools.build()
 
-    packages['sys-dev/bison'].drain(
+    packages['dev-apps/bison'].drain(
         'usr/share/bison/',
     )
 
     # Packages member of `raven-os/essentials` should explicitly state all
     # of their dependencies, including indirect ones.
-    packages['sys-dev/bison'].rdepends_on('raven-os/corefs', '*')
+    packages['dev-apps/bison'].requires('raven-os/corefs')
 
     return packages

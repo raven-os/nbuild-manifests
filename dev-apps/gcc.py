@@ -126,20 +126,20 @@ def split_gcc() -> Dict[str, stdlib.package.Package]:
     )
 
     libs_dev.depends_on(libs)
-    libs_dev.rdepends_on('sys-libs/glibc-dev', '^2.28')
+    libs_dev.requires('sys-libs/glibc-dev', '^2.28')
 
     cpp.depends_on(libs, f'^{build.semver}')
 
     gcc.depends_on(cpp)
     gcc.depends_on(libs, f'^{build.semver}')
     gcc.depends_on(libs_dev)
-    gcc.rdepends_on('sys-dev/binutils', '*')
+    gcc.requires('dev-apps/binutils')
 
     gpp.depends_on(cpp)
     gpp.depends_on(libs, f'^{build.semver}')
     gpp.depends_on(libs_dev)
     gpp.depends_on(gcc)
-    gpp.rdepends_on('sys-dev/binutils', '*')
+    gpp.requires('dev-apps/binutils')
 
     return {
         gcc.id.short_name(): gcc,
@@ -152,7 +152,7 @@ def split_gcc() -> Dict[str, stdlib.package.Package]:
 
 @manifest(
     name='gcc',
-    category='sys-dev',
+    category='dev-apps',
     description='''
     The GNU Compiler Collection
     ''',
@@ -201,17 +201,17 @@ def build(build):
     )
 
     # Move a misplaced file
-    packages['sys-dev/gcc'].move(
+    packages['dev-apps/gcc'].move(
         'usr/lib{,64}/*-gdb.py',
         'usr/share/gdb/auto-load/usr/lib/',
     )
 
     # Create a bunch of symlinks required to satisfy external utilities
-    packages['sys-dev/cpp'].make_symlink('../usr/bin/cpp', 'lib/cpp')
-    packages['sys-dev/gcc'].make_symlink('gcc', 'usr/bin/cc')
+    packages['dev-apps/cpp'].make_symlink('../usr/bin/cpp', 'lib/cpp')
+    packages['dev-apps/gcc'].make_symlink('gcc', 'usr/bin/cc')
 
     # Packages member of `raven-os/essentials` should explicitly state all
     # of their dependencies, including indirect ones.
-    packages['sys-libs/gcc-libs'].rdepends_on('raven-os/corefs', '*')
+    packages['sys-libs/gcc-libs'].requires('raven-os/corefs')
 
     return packages

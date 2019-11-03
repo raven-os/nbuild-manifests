@@ -48,6 +48,6 @@ def build(build):
 
     # Packages member of `raven-os/essentials` should explicitly state all
     # of their dependencies, including indirect ones.
-    packages['dev-apps/ninja'].rdepends_on('raven-os/corefs', '*')
+    packages['dev-apps/ninja'].requires('raven-os/corefs')
 
     return packages

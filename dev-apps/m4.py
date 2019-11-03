@@ -18,7 +18,7 @@ def patch_m4():
 
 @manifest(
     name='m4',
-    category='sys-dev',
+    category='dev-apps',
     description='''
     An implementation of the traditional Unix macro processor.
     ''',
@@ -45,6 +45,6 @@ def build(build):
 
     # Packages member of `raven-os/essentials` should explicitly state all
     # of their dependencies, including indirect ones.
-    packages['sys-dev/m4'].rdepends_on('raven-os/corefs', '*')
+    packages['dev-apps/m4'].requires('raven-os/corefs')
 
     return packages

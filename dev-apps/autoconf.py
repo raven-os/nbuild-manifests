@@ -8,7 +8,7 @@ from stdlib.manifest import manifest
 
 @manifest(
     name='autoconf',
-    category='sys-dev',
+    category='dev-apps',
     description='''
     A tool for automatically configuring source code.
     ''',
@@ -32,10 +32,10 @@ def build(build):
     packages = autotools.build()
 
     # Drain some shared files
-    packages['sys-dev/autoconf'].drain('usr/share/autoconf/')
+    packages['dev-apps/autoconf'].drain('usr/share/autoconf/')
 
     # Packages member of `raven-os/essentials` should explicitly state all
     # of their dependencies, including indirect ones.
-    packages['sys-dev/autoconf'].rdepends_on('raven-os/corefs', '*')
+    packages['dev-apps/autoconf'].requires('raven-os/corefs')
 
     return packages

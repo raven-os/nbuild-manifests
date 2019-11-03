@@ -37,6 +37,6 @@ def build(build):
 
     # Packages member of `raven-os/essentials` should explicitly state all
     # of their dependencies, including indirect ones.
-    packages['dev-libs/check'].rdepends_on('raven-os/corefs', '*')
+    packages['dev-libs/check'].requires('raven-os/corefs')
 
     return packages

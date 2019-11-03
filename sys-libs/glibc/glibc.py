@@ -195,9 +195,9 @@ def build(build):
 
     # Packages member of `raven-os/essentials` should explicitly state all
     # of their dependencies, including indirect ones.
-    packages['sys-libs/glibc'].rdepends_on('raven-os/corefs', '*')
+    packages['sys-libs/glibc'].requires('raven-os/corefs')
 
     # Glibc depends on the Linux Kernel headers to compile software properly.
-    packages['sys-libs/glibc-dev'].rdepends_on('kernel/linux-dev', '>=3.2')
+    packages['sys-libs/glibc-dev'].requires('kernel/linux-dev', '>=3.2')
 
     return packages

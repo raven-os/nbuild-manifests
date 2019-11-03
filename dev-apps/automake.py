@@ -9,9 +9,9 @@ from stdlib.manifest import manifest
 
 @manifest(
     name='automake',
-    category='sys-dev',
+    category='dev-apps',
     description='''
-    A tool for automatically generating Makefiles to use with sys-dev/autoconf.
+    A tool for automatically generating Makefiles to use with dev-apps/autoconf.
     ''',
     tags=['gnu', 'generator', 'configuration', 'configure', 'autoconf', 'makefile', 'make'],
     maintainer='grange_c@raven-os.org',
@@ -33,10 +33,10 @@ def build(build):
     packages = autotools.build()
 
     # Drain shared files
-    packages['sys-dev/automake'].drain('usr/share/*')
+    packages['dev-apps/automake'].drain('usr/share/*')
 
     # Packages member of `raven-os/essentials` should explicitly state all
     # of their dependencies, including indirect ones.
-    packages['sys-dev/automake'].rdepends_on('raven-os/corefs', '*')
+    packages['dev-apps/automake'].requires('raven-os/corefs')
 
     return packages

@@ -30,56 +30,89 @@ def build(build):
         stdlib.package.PackageID('essentials')
     )
 
-    devel = stdlib.package.Package(
-        stdlib.package.PackageID('essentials-dev')
+    dev = stdlib.package.Package(
+        stdlib.package.PackageID('essentials-dev'),
+        description='Core packages needed for most system development needs.',
+    )
+
+    boot = stdlib.package.Package(
+        stdlib.package.PackageID('essentials-bootable'),
+        description='Core packages needed for a stable and bootable Raven-OS system.',
     )
 
     # Essentials dependencies
 
-    essentials.rdepends_on('raven-os/corefs', '*')
-    essentials.rdepends_on('sys-apps/xz', '*')
-    essentials.rdepends_on('sys-apps/groff', '*')
-    essentials.rdepends_on('sys-apps/shadow-dev', '*')
-    essentials.rdepends_on('sys-apps/systemd', '*')
-    essentials.rdepends_on('sys-apps/man-pages', '*')
-    essentials.rdepends_on('sys-apps/gzip', '*')
-    essentials.rdepends_on('sys-apps/shadow', '*')
-    essentials.rdepends_on('sys-apps/attr', '*')
-    essentials.rdepends_on('sys-apps/bash', '*')
-    essentials.rdepends_on('sys-apps/tar', '*')
-    essentials.rdepends_on('sys-apps/grep', '*')
-    essentials.rdepends_on('sys-apps/util-linux', '*')
-    essentials.rdepends_on('sys-apps/findutils', '*')
-    essentials.rdepends_on('sys-apps/procps', '*')
-    essentials.rdepends_on('sys-apps/coreutils', '*')
-    essentials.rdepends_on('sys-apps/diffutils', '*')
-    essentials.rdepends_on('sys-apps/acl', '*')
-    essentials.rdepends_on('sys-apps/pkg-config', '*')
-    essentials.rdepends_on('sys-apps/sed', '*')
-    essentials.rdepends_on('sys-apps/bzip2', '*')
-    essentials.rdepends_on('sys-apps/gawk', '*')
-    essentials.rdepends_on('sys-apps/grub', '*')
-    essentials.rdepends_on('sys-apps/dbus', '*')
-    essentials.rdepends_on('sys-apps/kbd', '*')
-    essentials.rdepends_on('sys-apps/file', '*')
-    essentials.rdepends_on('sys-apps/kmod', '*')
-    essentials.rdepends_on('sys-apps/less', '*')
-    essentials.rdepends_on('sys-apps/man-db', '*')
-    essentials.rdepends_on('sys-apps/inetutils', '*')
-    essentials.rdepends_on('sys-apps/e2fsprogs', '*')
-    essentials.rdepends_on('sys-apps/psmisc', '*')
-    essentials.rdepends_on('sys-apps/curl', '*')
-    essentials.rdepends_on('dev-lang/python', '*')
-    essentials.rdepends_on('dev-lang/perl', '*')
-    essentials.rdepends_on('editor/vim', '*')
+    essentials.requires('raven-os/corefs')
+    essentials.requires('sys-apps/xz')
+    essentials.requires('sys-apps/groff')
+    essentials.requires('sys-apps/shadow-dev')
+    essentials.requires('sys-apps/man-pages')
+    essentials.requires('sys-apps/gzip')
+    essentials.requires('sys-apps/shadow')
+    essentials.requires('sys-apps/attr')
+    essentials.requires('sys-apps/bash')
+    essentials.requires('sys-apps/tar')
+    essentials.requires('sys-apps/grep')
+    essentials.requires('sys-apps/util-linux')
+    essentials.requires('sys-apps/findutils')
+    essentials.requires('sys-apps/procps')
+    essentials.requires('sys-apps/coreutils')
+    essentials.requires('sys-apps/diffutils')
+    essentials.requires('sys-apps/acl')
+    essentials.requires('sys-apps/pkg-config')
+    essentials.requires('sys-apps/sed')
+    essentials.requires('sys-apps/bzip2')
+    essentials.requires('sys-apps/gawk')
+    essentials.requires('sys-apps/grub')
+    essentials.requires('sys-apps/dbus')
+    essentials.requires('sys-apps/kbd')
+    essentials.requires('sys-apps/file')
+    essentials.requires('sys-apps/kmod')
+    essentials.requires('sys-apps/less')
+    essentials.requires('sys-apps/man-db')
+    essentials.requires('sys-apps/inetutils')
+    essentials.requires('sys-apps/e2fsprogs')
+    essentials.requires('sys-apps/psmisc')
+    essentials.requires('dev-lang/python')
+    essentials.requires('dev-lang/perl')
+    essentials.requires('sys-libs/iana-etc')
+    essentials.requires('sys-libs/ca-certificates')
+    essentials.requires('raven-os/nest')
 
-    # Essentials-Devel dependencies
+    # Essentials-dev dependencies
 
-    devel.depends_on(essentials)
+    dev.depends_on(essentials)
+    dev.requires('dev-apps/gcc')
+    dev.requires('dev-apps/autoconf')
+    dev.requires('dev-apps/automake')
+    dev.requires('dev-apps/binutils')
+    dev.requires('dev-apps/elfutils')
+    dev.requires('dev-apps/gettext')
+    dev.requires('dev-apps/git')
+    dev.requires('dev-apps/intltool')
+    dev.requires('dev-apps/m4')
+    dev.requires('dev-apps/make')
+    dev.requires('dev-apps/meson')
+    dev.requires('dev-apps/bison')
+    dev.requires('dev-apps/patch')
+    dev.requires('kernel/linux-dev')
+    dev.requires('sys-libs/glibc-dev')
+    dev.requires('dev-libs/libffi-dev')
 
-    # TODO FIXME: Add more dependencies to essentials-dev
+    # Essentials-bootable dependencies
+
+    # Mandatory packages to make a system bootable
+    boot.requires('kernel/linux')
+    boot.requires('sys-apps/grub')
+    boot.requires('sys-apps/systemd')
+    boot.depends_on(essentials)
+
+    # Convenient packages to make Raven-OS smoother to use.
+    boot.requires('editor/vim')  # TODO FIXME Switch to nano when packaged
+    boot.requires('sys-apps/curl')
 
     return {
-        essentials.id.full_name(): essentials,
-        devel.id.full_name(): devel,
+        essentials.id.short_name(): essentials,
+        dev.id.short_name(): dev,
+        boot.id.short_name(): boot,
     }

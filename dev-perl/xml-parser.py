@@ -53,6 +53,6 @@ def build(build):
 
     # Packages member of `raven-os/essentials` should explicitly state all
     # of their dependencies, including indirect ones.
-    packages['dev-perl/xml-parser'].rdepends_on('raven-os/corefs', '*')
+    packages['dev-perl/xml-parser'].requires('raven-os/corefs')
 
     return packages

@@ -29,6 +29,9 @@ from stdlib.manifest import manifest
             ],
         },
     ],
+    build_dependencies=[
+        'sys-libs/ncurses-dev',
+    ]
 )
 def build(build):
     packages = autotools.build(
@@ -47,6 +50,6 @@ def build(build):
 
     # Packages member of `raven-os/essentials` should explicitly state all
     # of their dependencies, including indirect ones.
-    packages['sys-libs/readline'].rdepends_on('raven-os/corefs', '*')
+    packages['sys-libs/readline'].requires('raven-os/corefs')
 
     return packages

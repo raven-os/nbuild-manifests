@@ -8,7 +8,7 @@ from stdlib.manifest import manifest
 
 @manifest(
     name='intltool',
-    category='sys-dev',
+    category='dev-apps',
     description='''
     A set of tools used to extract translatable strings from source files.
     ''',
@@ -32,10 +32,10 @@ def build(build):
     packages = autotools.build()
 
     # Drain some shared files
-    packages['sys-dev/intltool'].drain('usr/share/intltool/')
+    packages['dev-apps/intltool'].drain('usr/share/intltool/')
 
     # Packages member of `raven-os/essentials` should explicitly state all
     # of their dependencies, including indirect ones.
-    packages['sys-dev/intltool'].rdepends_on('raven-os/corefs', '*')
+    packages['dev-apps/intltool'].requires('raven-os/corefs')
 
     return packages

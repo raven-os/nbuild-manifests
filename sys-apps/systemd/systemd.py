@@ -108,9 +108,10 @@ def build(build):
 
     # Packages member of `raven-os/essentials` should explicitly state all
     # of their dependencies, including indirect ones.
-    packages['sys-apps/systemd'].rdepends_on('raven-os/corefs', '*')
-
-    packages['sys-apps/systemd'].rdepends_on('sys-apps/shadow', '*')
+    packages['sys-apps/systemd'].requires('raven-os/corefs')
+    packages['sys-apps/systemd'].requires('sys-apps/shadow')
+    packages['sys-apps/systemd'].requires('sys-apps/bash')
+    packages['sys-apps/systemd'].requires('sys-apps/coreutils')
 
     packages['sys-apps/systemd'].load_instructions('./instructions.sh')
 

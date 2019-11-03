@@ -96,6 +96,6 @@ def build(build):
 
     # # Packages member of `raven-os/essentials` should explicitly state all
     # # of their dependencies, including indirect ones.
-    # packages['sys-apps/grub'].rdepends_on('raven-os/corefs', '*')
+    # packages['sys-apps/grub'].requires('raven-os/corefs')
 
     return packages

@@ -65,10 +65,10 @@ def build(build):
 
     # Symlink the documentation to a more standard place.
     packages['editor/vim-doc'].make_symlink(f'../vim/vim{build.major}{build.minor}/doc/', 'usr/share/doc/vim')
-    packages['editor/vim-doc'].rdepends_on('editor/vim', '*')
+    packages['editor/vim-doc'].requires('editor/vim')
 
     # Packages member of `raven-os/essentials` should explicitly state all
     # of their dependencies, including indirect ones.
-    packages['editor/vim'].rdepends_on('raven-os/corefs', '*')
+    packages['editor/vim'].requires('raven-os/corefs')
 
     return packages

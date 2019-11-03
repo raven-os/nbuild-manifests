@@ -46,8 +46,11 @@ def build(build):
         os.chmod(f'usr/lib64/libpython{build.major}.{build.minor}m.so', 0o0755)
         os.chmod(f'usr/lib64/libpython{build.major}.so', 0o0755)
 
+    # Make the python -> python3 symlink
+    packages['dev-lang/python'].make_symlink('python3', 'usr/bin/python')
+
     # Packages member of `raven-os/essentials` should explicitly state all
     # of their dependencies, including indirect ones.
-    packages['dev-lang/python'].rdepends_on('raven-os/corefs', '*')
+    packages['dev-lang/python'].requires('raven-os/corefs')
 
     return packages

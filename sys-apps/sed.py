@@ -43,6 +43,6 @@ def build(build):
 
     # Packages member of `raven-os/essentials` should explicitly state all
     # of their dependencies, including indirect ones.
-    packages['sys-apps/sed'].rdepends_on('raven-os/corefs', '*')
+    packages['sys-apps/sed'].requires('raven-os/corefs')
 
     return packages

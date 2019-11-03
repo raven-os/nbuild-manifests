@@ -49,11 +49,10 @@ def build(build):
         configure=lambda: configure(
             '--with-gcc-arch=generic',
         ),
-        split=drain_all_with_doc,
     )
 
     # Packages member of `raven-os/essentials` should explicitly state all
     # of their dependencies, including indirect ones.
-    packages['dev-libs/libffi'].rdepends_on('raven-os/corefs', '*')
+    packages['dev-libs/libffi'].requires('raven-os/corefs')
 
     return packages

@@ -14,8 +14,8 @@ def split_binutils():
 
     # Binutils creates libraries that have binutils' version in their name *before* the `.so`.
     # The splitter wrongly attribute them to the development version of binutils.
-    packages['sys-dev/binutils'].drain_package(
-        packages['sys-dev/binutils-dev'],
+    packages['dev-apps/binutils'].drain_package(
+        packages['dev-apps/binutils-dev'],
         'usr/lib64/lib*-*.so'
     )
 
@@ -24,7 +24,7 @@ def split_binutils():
 
 @manifest(
     name='binutils',
-    category='sys-dev',
+    category='dev-apps',
     description='''
     A set of tools to link, assemble and manipulate object files.
     ''',
@@ -59,28 +59,28 @@ def build(build):
     )
 
     # Drain pre-installed link scripts
-    packages['sys-dev/binutils'].drain(
+    packages['dev-apps/binutils'].drain(
         f'usr/{target}/lib/ldscripts/*'
     )
 
     # Move some folders to a more convenient location
-    packages['sys-dev/binutils'].move(
+    packages['dev-apps/binutils'].move(
         f'usr/{target}/lib/*',
         f'usr/lib64/{target}/',
     )
 
-    packages['sys-dev/binutils'].move(
+    packages['dev-apps/binutils'].move(
         f'usr/{target}/bin/*',
         f'usr/bin/{target}/',
     )
 
     # Prefer usr/bin/ARCH-xxx instead of usr/bin/ARCH/xxx
-    with stdlib.pushd(packages['sys-dev/binutils'].wrap_cache):
+    with stdlib.pushd(packages['dev-apps/binutils'].wrap_cache):
         for filename in os.listdir(f'usr/bin/{target}/'):
             shutil.move(f'usr/bin/{target}/{filename}', f'usr/bin/{target}-{filename}')
 
     # Packages member of `raven-os/essentials` should explicitly state all
     # of their dependencies, including indirect ones.
-    packages['sys-dev/binutils'].rdepends_on('raven-os/corefs', '*')
+    packages['dev-apps/binutils'].requires('raven-os/corefs')
 
     return packages

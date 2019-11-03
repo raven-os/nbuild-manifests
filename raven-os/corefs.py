@@ -195,6 +195,38 @@ def build(build):
             nameserver 8.8.4.4
             '''))
 
+        # Write a default etc/os-release
+        with open('etc/os-release', 'w+') as resolv:
+            resolv.write(dedent('''\
+            #
+            # Raven-OS - /etc/os-release
+            #
+
+            ID="raven-os"
+            NAME="Raven-OS"
+            HOME_URL="https://raven-os.org/"
+            SUPPORT_URL="https://github.com/raven-os/iso/issues/"
+            BUG_REPORT_URL="https://github.com/raven-os/iso/issues/"
+            '''))
+
+        # Write a default etc/raven-os-release
+        with open('etc/raven-os-release', 'w+') as resolv:
+            resolv.write(dedent('''\
+            #
+            # Raven-OS - /etc/raven-os-release
+            #
+            Raven-OS release 0.1.0 (Beta)
+            '''))
+
+        # Write a default etc/issue
+        with open('etc/issue', 'w+') as resolv:
+            resolv.write(dedent('''\
+            #
+            # Raven-OS - /etc/issue
+            #
+            Welcome to Raven-OS!
+            '''))
+
     return {
-        corefs.id.full_name(): corefs
+        corefs.id.short_name(): corefs
     }

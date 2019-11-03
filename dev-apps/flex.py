@@ -9,7 +9,7 @@ from stdlib.manifest import manifest
 
 @manifest(
     name='flex',
-    category='sys-dev',
+    category='dev-apps',
     description='''
     A fast lexical analyser generator.
     ''',
@@ -38,10 +38,10 @@ def build(build):
     packages = autotools.build()
 
     # Make a symlink to its predecessor, `lex`.
-    packages['sys-dev/flex'].make_symlink('flex', 'usr/bin/lex')
+    packages['dev-apps/flex'].make_symlink('flex', 'usr/bin/lex')
 
     # Packages member of `raven-os/essentials` should explicitly state all
     # of their dependencies, including indirect ones.
-    packages['sys-dev/flex'].rdepends_on('raven-os/corefs', '*')
+    packages['dev-apps/flex'].requires('raven-os/corefs')
 
     return packages
