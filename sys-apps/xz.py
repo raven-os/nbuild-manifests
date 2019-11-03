@@ -7,22 +7,22 @@ from stdlib.manifest import manifest
 
 
 @manifest(
-    name='file',
+    name='xz',
     category='sys-apps',
     description='''
-    A command to recognize the type of data contained in a file.
+    A bunch of programs to compress and decompress files.
     ''',
-    tags=['gnu', 'file', 'filetype'],
+    tags=['xz', 'compression', 'decompression'],
     maintainer='grange_c@raven-os.org',
-    licenses=[stdlib.license.License.CUSTOM],
-    upstream_url='https://www.darwinsys.com/file/',
+    licenses=[stdlib.license.License.GPL, stdlib.license.License.CUSTOM, stdlib.license.License.LGPL],
+    upstream_url='https://tukaani.org/xz/',
     kind=stdlib.kind.Kind.EFFECTIVE,
     versions_data=[
         {
-            'semver': '5.36.0',
+            'semver': '5.2.4',
             'fetch': [{
-                    'url': 'ftp://ftp.astron.com/pub/file/file-5.36.tar.gz',
-                    'sha256': 'fb608290c0fd2405a8f63e5717abf6d03e22e183fb21884413d1edd918184379',
+                    'url': 'https://tukaani.org/xz/xz-5.2.4.tar.xz',
+                    'sha256': '9717ae363760dedf573dad241420c5fea86256b65bc21d2cf71b2b12f0544f4b',
                 },
             ],
         },
@@ -33,6 +33,6 @@ def build(build):
 
     # Packages member of `raven-os/essentials` should explicitly state all
     # of their dependencies, including indirect ones.
-    packages['sys-apps/file'].requires('raven-os/corefs')
+    packages['sys-apps/xz'].requires('raven-os/corefs')
 
     return packages

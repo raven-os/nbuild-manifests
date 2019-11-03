@@ -7,22 +7,22 @@ from stdlib.manifest import manifest
 
 
 @manifest(
-    name='file',
+    name='diffutils',
     category='sys-apps',
     description='''
-    A command to recognize the type of data contained in a file.
+    A bunch of programs to show the differences between files or directories.
     ''',
-    tags=['gnu', 'file', 'filetype'],
+    tags=['gnu', 'diff', 'compare'],
     maintainer='grange_c@raven-os.org',
-    licenses=[stdlib.license.License.CUSTOM],
-    upstream_url='https://www.darwinsys.com/file/',
+    licenses=[stdlib.license.License.GPL_V3],
+    upstream_url='https://www.gnu.org/software/diffutils',
     kind=stdlib.kind.Kind.EFFECTIVE,
     versions_data=[
         {
-            'semver': '5.36.0',
+            'semver': '3.7.0',
             'fetch': [{
-                    'url': 'ftp://ftp.astron.com/pub/file/file-5.36.tar.gz',
-                    'sha256': 'fb608290c0fd2405a8f63e5717abf6d03e22e183fb21884413d1edd918184379',
+                    'url': 'http://ftp.gnu.org/gnu/diffutils/diffutils-3.7.tar.xz',
+                    'sha256': 'b3a7a6221c3dc916085f0d205abf6b8e1ba443d4dd965118da364a1dc1cb3a26',
                 },
             ],
         },
@@ -33,6 +33,6 @@ def build(build):
 
     # Packages member of `raven-os/essentials` should explicitly state all
     # of their dependencies, including indirect ones.
-    packages['sys-apps/file'].requires('raven-os/corefs')
+    packages['sys-apps/diffutils'].requires('raven-os/corefs')
 
     return packages

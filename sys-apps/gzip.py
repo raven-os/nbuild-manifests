@@ -7,22 +7,22 @@ from stdlib.manifest import manifest
 
 
 @manifest(
-    name='file',
+    name='gzip',
     category='sys-apps',
     description='''
-    A command to recognize the type of data contained in a file.
+    A set of tools for compressing and decompressing files.
     ''',
-    tags=['gnu', 'file', 'filetype'],
+    tags=['gnu', 'compression', 'decompression'],
     maintainer='grange_c@raven-os.org',
-    licenses=[stdlib.license.License.CUSTOM],
-    upstream_url='https://www.darwinsys.com/file/',
+    licenses=[stdlib.license.License.GPL_V3],
+    upstream_url='https://www.gnu.org/software/gzip/',
     kind=stdlib.kind.Kind.EFFECTIVE,
     versions_data=[
         {
-            'semver': '5.36.0',
+            'semver': '1.10.0',
             'fetch': [{
-                    'url': 'ftp://ftp.astron.com/pub/file/file-5.36.tar.gz',
-                    'sha256': 'fb608290c0fd2405a8f63e5717abf6d03e22e183fb21884413d1edd918184379',
+                    'url': 'https://ftp.gnu.org/gnu/gzip/gzip-1.10.tar.xz',
+                    'sha256': '8425ccac99872d544d4310305f915f5ea81e04d0f437ef1a230dc9d1c819d7c0',
                 },
             ],
         },
@@ -33,6 +33,6 @@ def build(build):
 
     # Packages member of `raven-os/essentials` should explicitly state all
     # of their dependencies, including indirect ones.
-    packages['sys-apps/file'].requires('raven-os/corefs')
+    packages['sys-apps/gzip'].requires('raven-os/corefs')
 
     return packages

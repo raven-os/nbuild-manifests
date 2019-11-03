@@ -7,22 +7,22 @@ from stdlib.manifest import manifest
 
 
 @manifest(
-    name='file',
-    category='sys-apps',
+    name='expat',
+    category='sys-libs',
     description='''
-    A command to recognize the type of data contained in a file.
+    A stream-oriented C library for XML parsing.
     ''',
-    tags=['gnu', 'file', 'filetype'],
+    tags=['xml', 'parser'],
     maintainer='grange_c@raven-os.org',
     licenses=[stdlib.license.License.CUSTOM],
-    upstream_url='https://www.darwinsys.com/file/',
+    upstream_url='https://libexpat.github.io/',
     kind=stdlib.kind.Kind.EFFECTIVE,
     versions_data=[
         {
-            'semver': '5.36.0',
+            'semver': '2.2.8',
             'fetch': [{
-                    'url': 'ftp://ftp.astron.com/pub/file/file-5.36.tar.gz',
-                    'sha256': 'fb608290c0fd2405a8f63e5717abf6d03e22e183fb21884413d1edd918184379',
+                    'url': 'https://github.com/libexpat/libexpat/releases/download/R_2_2_8/expat-2.2.8.tar.xz',
+                    'sha256': '61caa81a49d858afb2031c7b1a25c97174e7f2009aa1ec4e1ffad2316b91779b',
                 },
             ],
         },
@@ -31,8 +31,10 @@ from stdlib.manifest import manifest
 def build(build):
     packages = autotools.build()
 
+    packages['sys-libs/expat-doc'].drain_build_cache('doc/*.{html,png,css}', 'usr/share/doc/expat/')
+
     # Packages member of `raven-os/essentials` should explicitly state all
     # of their dependencies, including indirect ones.
-    packages['sys-apps/file'].requires('raven-os/corefs')
+    packages['sys-libs/expat'].requires('raven-os/corefs')
 
     return packages
