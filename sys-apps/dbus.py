@@ -22,12 +22,15 @@ from stdlib.manifest import manifest
         {
             'semver': '1.12.16',
             'fetch': [{
-                    'url': 'https://dbus.freedesktop.org/releases/dbus/dbus-1.12.16.tar.gz',
-                    'sha256': '54a22d2fa42f2eb2a871f32811c6005b531b9613b1b93a0d269b05e7549fec80',
-                },
-            ],
+                'url': 'https://dbus.freedesktop.org/releases/dbus/dbus-1.12.16.tar.gz',
+                'sha256': '54a22d2fa42f2eb2a871f32811c6005b531b9613b1b93a0d269b05e7549fec80',
+            }],
         },
     ],
+    build_dependencies=[
+        'sys-apps/systemd-dev',
+        'sys-libs/expat-dev'
+    ]
 )
 def build(build):
     packages = autotools.build(
