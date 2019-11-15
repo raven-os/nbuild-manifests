@@ -1,23 +1,7 @@
-import os
-
 import stdlib
-import stdlib.build
 from stdlib.template import autotools
 from stdlib.manifest import manifest
 from stdlib.split.drain_all import drain_all
-
-
-def rename_correctly(pkg):
-    usr = os.path.join(pkg.wrap_cache, 'usr')
-    f1 = os.path.join(usr, 'bin', os.environ['TARGET'] + '-htop')
-    f2 = os.path.join(usr, 'share', 'man', 'man1', os.environ['TARGET'] + '-htop.1')
-    remove_target_prefix(f1)
-    remove_target_prefix(f2)
-
-
-def remove_target_prefix(path):
-    new_name = path.replace(os.environ['TARGET'] + '-', '')
-    os.rename(path, new_name)
 
 
 @manifest(
@@ -49,8 +33,4 @@ def build(build):
     packages = autotools.build(
         split=drain_all
     )
-
-    # remove TARGET prefix on some files (i.e. x86_64-raven-linux-gnu-htop)
-    rename_correctly(packages['sys-apps/htop'])
-
     return packages
