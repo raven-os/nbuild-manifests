@@ -16,10 +16,8 @@ def rename_correctly(pkg):
 
 
 def remove_target_prefix(path):
-    dirname = os.path.dirname(path)
-    base = os.path.basename(path)
-    new_name = base.replace(os.environ['TARGET'] + '-', '')
-    os.rename(path, os.path.join(dirname, new_name))
+    new_name = path.replace(os.environ['TARGET'] + '-', '')
+    os.rename(path, new_name)
 
 
 @manifest(
