@@ -36,7 +36,6 @@ def build(build):
             '--localstatedir=/var',
             '--disable-static'
         ),
-        split=drain_all_with_doc
     )
 
     # Packages member of `raven-os/essentials` should explicitly state all
