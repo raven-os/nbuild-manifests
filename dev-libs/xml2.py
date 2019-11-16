@@ -28,24 +28,24 @@ from stdlib.manifest import manifest
         },
     ],
     build_dependencies=[
-        "sys-libs/zlib-dev",
-        "sys-apps/xz-dev"
+        'sys-libs/zlib-dev',
+        'sys-apps/xz-dev'
     ]
 )
 def build(build):
     packages = autotools.build(
         configure=lambda: configure(
-            "--with-history",
+            '--with-history',
         ),
     )
 
-    packages['sys-libs/xml2-dev'].drain(
-        "usr/lib64/xml2Conf.sh",
-        "usr/lib64/cmake/libxml2/libxml2-config.cmake"
+    packages['dev-libs/xml2-dev'].drain(
+        'usr/lib64/xml2Conf.sh',
+        'usr/lib64/cmake/libxml2/libxml2-config.cmake'
     )
 
-    packages['sys-libs/xml2-doc'].drain(
-        "usr/share/gtk-doc/"
+    packages['dev-libs/xml2-doc'].drain(
+        'usr/share/gtk-doc/'
     )
 
     return packages
