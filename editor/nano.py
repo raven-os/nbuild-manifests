@@ -42,7 +42,6 @@ def build(build):
             '--enable-nanorc',
             '--enable-multibuffer'
         ),
-        install=lambda: make('install', f'PREFIX={stdlib.build.current_build().install_cache}'),
         split=drain_all_with_doc
     )
 
