@@ -8,7 +8,7 @@ from stdlib.manifest import manifest
     name='libatomic-ops',
     category='sys-libs',
     description='''
-    This package provides semi-portable access to hardware-provided atomic memory update operations on a number of architectures.
+    A semi-portable access to hardware-provided atomic memory update operations on a number of architectures.
     ''',
     tags=['atomic', 'libs'],
     maintainer='matteo.melis@epitech.eu',
