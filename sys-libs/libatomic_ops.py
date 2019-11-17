@@ -10,7 +10,7 @@ from stdlib.manifest import manifest
     description='''
     A semi-portable access to hardware-provided atomic memory update operations on a number of architectures.
     ''',
-    tags=['atomic', 'libs'],
+    tags=['atomic', 'hardware', 'memory'],
     maintainer='matteo.melis@epitech.eu',
     licenses=[stdlib.license.License.MIT, stdlib.license.License.GPL],
     upstream_url='https://github.com/ivmai/libatomic_ops',
