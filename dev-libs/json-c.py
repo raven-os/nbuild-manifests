@@ -9,7 +9,7 @@ from stdlib.manifest import manifest
     description='''
     JSON-C implements a reference counting object model that allows you to easily construct JSON objects in C, output them as JSON formatted strings and parse JSON formatted strings back into the C representation of JSON objects. It aims to conform to RFC 7159.
     ''',
-    tags=['dev', 'json', 'c', 'libs'],
+    tags=['json', 'c', 'parser'],
     maintainer='matteo.melis@epitech.eu',
     licenses=[stdlib.license.License.MIT],
     upstream_url='https://github.com/json-c/json-c',
