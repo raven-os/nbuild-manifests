@@ -38,14 +38,12 @@ from stdlib.manifest import manifest
 def build(build):
     packages = autotools.build(
         configure=lambda: configure(
-            '--prefix=/usr',
             '--enable-color',
             '--enable-nanorc',
             '--enable-multibuffer'
         ),
-        install=lambda: make('install', f'PREFIX={stdlib.build.current_build().install_cache}/usr/'),
+        install=lambda: make('install', f'PREFIX={stdlib.build.current_build().install_cache}'),
         split=drain_all_with_doc
     )
-    packages['editor/nano'].requires('raven-os/corefs')
 
     return packages
