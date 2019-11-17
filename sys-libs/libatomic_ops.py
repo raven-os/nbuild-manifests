@@ -6,7 +6,7 @@ from stdlib.manifest import manifest
 
 @manifest(
     name='libatomic-ops',
-    category='sys-libs',
+    category='dev-libs',
     description='''
     A semi-portable access to hardware-provided atomic memory update operations on a number of architectures.
     ''',
