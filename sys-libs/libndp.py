@@ -12,16 +12,16 @@ from stdlib.template.configure import configure
     name='libndp',
     category='sys-libs',
     description='''
-    Library for Neighbor Discovery Protocol.
+    A library for Neighbor Discovery Protocol.
     ''',
     tags=['network', 'ndptool'],
     maintainer='dorian.trubelle@epitech.eu',
-    licenses=[stdlib.license.License.CUSTOM],
+    licenses=[stdlib.license.License.LGPL_V2_1],
     upstream_url='http://libndp.org/',
     kind=stdlib.kind.Kind.EFFECTIVE,
     versions_data=[
         {
-            'semver': '1.7.0-1',
+            'semver': '1.7.0',
             'fetch': [{
                     'url': 'http://libndp.org/files/libndp-1.7.tar.gz',
                     'sha256': '2c480afbffb02792dbae3c13bbfb71d89f735562f2795cca0640ed3428b491b6',
@@ -31,15 +31,6 @@ from stdlib.template.configure import configure
     ],
 )
 def build(build):
-    packages = autotools.build(
-        configure=lambda: configure(
-            '--localstatedir=/var',
-            '--disable-static'
-        ),
-    )
-
-    # Packages member of `raven-os/essentials` should explicitly state all
-    # of their dependencies, including indirect ones.
-    packages['sys-libs/libndp'].requires('raven-os/corefs')
+    packages = autotools.build()
 
     return packages
