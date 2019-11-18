@@ -7,11 +7,6 @@ from stdlib.template.configure import configure
 from stdlib.manifest import manifest
 
 
-def autogen_and_configure():
-    stdlib.cmd("./autogen.sh")
-    configure()
-
-
 @manifest(
     name='uv',
     category='dev-libs',
@@ -39,5 +34,5 @@ def autogen_and_configure():
 )
 def build(build):
     return autotools.build(
-        configure=autogen_and_configure
+        configure=lambda: configure(make_configure=lambda: stdlib.cmd("./autogen.sh"))
     )
