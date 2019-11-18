@@ -1,0 +1,117 @@
+Submitted By:            Douglas R. Reno <renodr at linuxfromscratch dot org>
+Date:                    2019-07-29
+Initial Package Version: 241
+Upstream Status:         Applied
+Origin:                  Upstream / Self
+Description:             Adapt systemd-networkd to changes in the Linux Kernel
+                         5.2+'s IPv6 API, and adapt the random number generator
+                         to a bug in the AMD Ryzen CPUs that will lead to RDRAND
+                         returning the same number instead of a random number
+                         upon returning from a suspend/resume cycle.
+
+diff -Naurp systemd-241.orig/src/basic/random-util.c systemd-241/src/basic/random-util.c
+--- systemd-241.orig/src/basic/random-util.c	2019-02-14 04:11:58.000000000 -0600
++++ systemd-241/src/basic/random-util.c	2019-07-29 21:38:12.697107936 -0500
+@@ -37,7 +37,8 @@ int rdrand(unsigned long *ret) {
+ 
+ #if defined(__i386__) || defined(__x86_64__)
+         static int have_rdrand = -1;
+-        unsigned char err;
++        unsigned long v;
++        uint8_t success;
+ 
+         if (have_rdrand < 0) {
+                 uint32_t eax, ebx, ecx, edx;
+@@ -56,16 +57,28 @@ int rdrand(unsigned long *ret) {
+ 
+         asm volatile("rdrand %0;"
+                      "setc %1"
+-                     : "=r" (*ret),
+-                       "=qm" (err));
++                     : "=r" (v),
++                       "=qm" (success));
+ 
+ #if HAS_FEATURE_MEMORY_SANITIZER
+-        __msan_unpoison(&err, sizeof(err));
++        __msan_unpoison(&success, sizeof(success));
+ #endif
+ 
+-        if (!err)
++        if (!success)
+                 return -EAGAIN;
+ 
++        /* Apparently on some AMD CPUs RDRAND will sometimes (after a suspend/resume cycle) report success
++         * via the carry flag but nonetheless return the same fixed value -1 in all cases. This appears to be
++         * a bad bug in the CPU or microcode. Let's deal with that and work-around this by explicitly checking
++         * for this special value (and also 0, just to be sure) and filtering it out. This is a work-around
++         * only however and something AMD should really fix properly. The Linux kernel should probably work
++         * around this issue by turning off RDRAND altogether on those CPUs. See:
++         * https://github.com/systemd/systemd/issues/11810
++         * BLFS/LFS: See ticket #4506 in LFS and Ticket #12330 in BLFS */
++        if (v == 0 || v == ULONG_MAX)
++           return log_debug_errno(SYNTHETIC_ERRNO(EUCLEAN),
++                 "RDRAND returned suspicious value %lx, assuming bad hardware RNG, not using value.", v);
++        *ret = v;
+         return 0;
+ #else
+         return -EOPNOTSUPP;
+diff -Naurp systemd-241.orig/src/network/networkd-link.c systemd-241/src/network/networkd-link.c
+--- systemd-241.orig/src/network/networkd-link.c	2019-02-14 04:11:58.000000000 -0600
++++ systemd-241/src/network/networkd-link.c	2019-07-29 21:26:04.388687895 -0500
+@@ -1788,6 +1788,9 @@ static int link_configure_addrgen_mode(L
+         assert(link->manager);
+         assert(link->manager->rtnl);
+ 
++        if (!socket_ipv6_is_supported())
++           return 0;
++
+         log_link_debug(link, "Setting address genmode for link");
+ 
+         r = sd_rtnl_message_new_link(link->manager->rtnl, &req, RTM_SETLINK, link->ifindex);
+@@ -1889,31 +1892,6 @@ static int link_up(Link *link) {
+                         return log_link_error_errno(link, r, "Could not set MAC address: %m");
+         }
+ 
+-        if (link_ipv6_enabled(link)) {
+-                r = sd_netlink_message_open_container(req, IFLA_AF_SPEC);
+-                if (r < 0)
+-                        return log_link_error_errno(link, r, "Could not open IFLA_AF_SPEC container: %m");
+-
+-                /* if the kernel lacks ipv6 support setting IFF_UP fails if any ipv6 options are passed */
+-                r = sd_netlink_message_open_container(req, AF_INET6);
+-                if (r < 0)
+-                        return log_link_error_errno(link, r, "Could not open AF_INET6 container: %m");
+-
+-                if (!in_addr_is_null(AF_INET6, &link->network->ipv6_token)) {
+-                        r = sd_netlink_message_append_in6_addr(req, IFLA_INET6_TOKEN, &link->network->ipv6_token.in6);
+-                        if (r < 0)
+-                                return log_link_error_errno(link, r, "Could not append IFLA_INET6_TOKEN: %m");
+-                }
+-
+-                r = sd_netlink_message_close_container(req);
+-                if (r < 0)
+-                        return log_link_error_errno(link, r, "Could not close AF_INET6 container: %m");
+-
+-                r = sd_netlink_message_close_container(req);
+-                if (r < 0)
+-                        return log_link_error_errno(link, r, "Could not close IFLA_AF_SPEC container: %m");
+-        }
+-
+         r = netlink_call_async(link->manager->rtnl, NULL, req, link_up_handler,
+                                link_netlink_destroy_callback, link);
+         if (r < 0)
+@@ -3001,11 +2979,9 @@ static int link_configure(Link *link) {
+                         return r;
+         }
+ 
+-        if (socket_ipv6_is_supported()) {
+-                r = link_configure_addrgen_mode(link);
+-                if (r < 0)
+-                        return r;
+-        }
++        r = link_configure_addrgen_mode(link);
++        if (r < 0)
++           return r;
+ 
+         return link_configure_after_setting_mtu(link);
+ }

@@ -171,7 +171,7 @@ def build(build):
 
     # Drain pre-installed configuration
     packages['sys-libs/glibc'].drain_build_cache('nscd/nscd.conf', 'etc/nscd.conf')
-    packages['sys-libs/glibc'].drain_build_cache('nscd/nscd.conf.tmpfiles', 'usr/lib/tmpfiles.d/nscd.conf')
+    packages['sys-libs/glibc'].drain_build_cache('nscd/nscd.tmpfiles', 'usr/lib/tmpfiles.d/nscd.conf')
     packages['sys-libs/glibc'].drain_build_cache('nscd/nscd.service', 'usr/lib/systemd/system/nscd.service')
 
     # Drain files that weren't picked-up by the splitter
@@ -195,9 +195,9 @@ def build(build):
 
     # Packages member of `raven-os/essentials` should explicitly state all
     # of their dependencies, including indirect ones.
-    packages['sys-libs/glibc'].rdepends_on('raven-os/corefs', '*')
+    packages['sys-libs/glibc'].requires('raven-os/corefs')
 
     # Glibc depends on the Linux Kernel headers to compile software properly.
-    packages['sys-libs/glibc-dev'].rdepends_on('sys-kernel/linux-dev', '>=3.2')
+    packages['sys-libs/glibc-dev'].requires('kernel/linux-dev', '>=3.2')
 
     return packages
