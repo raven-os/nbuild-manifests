@@ -5,6 +5,7 @@ import os
 import stdlib
 from stdlib.split.drain_all import drain_all_with_doc
 from stdlib.template.configure import configure
+from stdlib.template.make import make
 from stdlib.template import autotools
 from stdlib.manifest import manifest
 
@@ -30,15 +31,29 @@ from stdlib.manifest import manifest
             ],
         },
     ],
+    build_dependencies=[
+        'sys-libs/zlib-dev',
+        'sys-libs/expat-dev',
+        'sys-libs/ncurses-dev',
+        'sys-libs/openssl-dev',
+        'sys-apps/bzip2-dev',
+        'sys-libs/gdbm-dev',
+        'sys-libs/readline-dev',
+        'sys-apps/util-linux-dev',
+        'sys-apps/curl-dev',
+        'sys-apps/xz-dev',
+    ]
 )
 def build(build):
     packages = autotools.build(
         configure=lambda: configure(
             '--with-system-expat',
             '--with-system-ffi',
-            '--with-ensurepip=yes',
+            '--without-ensurepip',
+            '--enable-optimizations',
         ),
         split=drain_all_with_doc,
+        install=lambda: make('altinstall', f'DESTDIR={build.install_cache}'),
     )
 
     # Make it executable
@@ -47,7 +62,8 @@ def build(build):
         os.chmod(f'usr/lib64/libpython{build.major}.so', 0o0755)
 
     # Make the python -> python3 symlink
-    packages['dev-lang/python'].make_symlink('python3', 'usr/bin/python')
+    packages['dev-lang/python'].make_symlink(f'python{build.major}', 'usr/bin/python')
+    packages['dev-lang/python'].make_symlink(f'python{build.major}.{build.minor}', f'usr/bin/python{build.major}')
 
     # Packages member of `raven-os/essentials` should explicitly state all
     # of their dependencies, including indirect ones.
