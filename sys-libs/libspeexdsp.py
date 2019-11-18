@@ -9,7 +9,7 @@ from stdlib.manifest import manifest
     description='''
     Speex is an Open Source/Free Software patent-free audio compression format designed for speech.
     ''',
-    tags=['sound', 'speech', 'libs', 'gnu'],
+    tags=['sound', 'speech', 'audio', 'media', 'gnu'],
     maintainer='matteo.melis@epiteh.eu',
     licenses=[stdlib.license.License.BSD],
     upstream_url='https://www.speex.org/',
