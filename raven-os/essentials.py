@@ -83,6 +83,7 @@ def build(build):
 
     dev.depends_on(essentials)
     dev.requires('dev-apps/gcc')
+    dev.requires('dev-apps/g++')
     dev.requires('dev-apps/autoconf')
     dev.requires('dev-apps/automake')
     dev.requires('dev-apps/binutils')
@@ -95,6 +96,7 @@ def build(build):
     dev.requires('dev-apps/meson')
     dev.requires('dev-apps/bison')
     dev.requires('dev-apps/patch')
+    dev.requires('dev-python/pip')
     dev.requires('kernel/linux-dev')
     dev.requires('sys-libs/glibc-dev')
     dev.requires('dev-libs/libffi-dev')
