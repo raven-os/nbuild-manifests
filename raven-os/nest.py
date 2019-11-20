@@ -22,16 +22,17 @@ from stdlib.split.drain_all import drain_all_with_doc
     kind=stdlib.kind.Kind.EFFECTIVE,
     versions_data=[
         {
-            'semver': '0.0.214',
+            'semver': '0.0.216',
             'fetch': [{
                 'git': 'https://github.com/raven-os/nest.git',
-                'commit': '793cb4df5c5c45bb9d64997a9826e591d9125b03',
+                'commit': 'd2d2d4b9cbb729172b94d2214bb2a18e0c918ec3',
             }]
         },
     ],
     build_dependencies=[
-        'sys-lang/rust',
-    ]
+        'dev-lang/rust',
+        'sys-libs/openssl-dev',
+    ],
 )
 def build(build):
     packages = cargo.build(
