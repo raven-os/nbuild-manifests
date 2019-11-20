@@ -5,15 +5,15 @@ import stdlib
 from stdlib.manifest import manifest
 from stdlib.template import autotools
 from stdlib.template.configure import configure
-from stdlib.template.make import make
-from stdlib.split.drain_all import drain_all
+
 
 def xslt_configure():
     stdlib.cmd('sed -i s/3000/5000/ libxslt/transform.c doc/xsltproc.{1,xml}')
     configure()
 
+
 @manifest(
-    name='xslt',
+    name='libxslt',
     category='dev-libs',
     description='''
     XML stylesheet transformation library.
@@ -38,10 +38,11 @@ def xslt_configure():
         'sys-apps/xz-dev'
     ]
 )
-
 def build(build):
     packages = autotools.build(
         configure=lambda: xslt_configure(),
     )
+
+    packages['dev-libs/libxslt'].drain('usr/lib64/xsltConf.sh')
 
     return packages
