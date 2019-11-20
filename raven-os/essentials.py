@@ -58,6 +58,7 @@ def build(build):
     essentials.requires('sys-apps/procps')
     essentials.requires('sys-apps/coreutils')
     essentials.requires('sys-apps/diffutils')
+    essentials.requires('sys-apps/which')
     essentials.requires('sys-apps/acl')
     essentials.requires('sys-apps/pkg-config')
     essentials.requires('sys-apps/sed')
