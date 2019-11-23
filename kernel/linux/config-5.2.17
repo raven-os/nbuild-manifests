@@ -4,7 +4,7 @@
 #
 
 #
-# Compiler: gcc (Gentoo 8.3.0-r1 p1.1) 8.3.0
+# Compiler: gcc (Gentoo 8.3.0-r2 p2) 8.3.0
 #
 CONFIG_CC_IS_GCC=y
 CONFIG_GCC_VERSION=80300
@@ -2206,7 +2206,7 @@ CONFIG_INPUT_MISC=y
 # CONFIG_INPUT_POWERMATE is not set
 # CONFIG_INPUT_YEALINK is not set
 # CONFIG_INPUT_CM109 is not set
-# CONFIG_INPUT_UINPUT is not set
+CONFIG_INPUT_UINPUT=m
 # CONFIG_INPUT_PCF8574 is not set
 # CONFIG_INPUT_ADXL34X is not set
 # CONFIG_INPUT_IMS_PCU is not set
