@@ -8,6 +8,7 @@ from stdlib.template.configure import configure
 
 
 def xslt_configure():
+    # This increases the recursion limit in libxslt which is needed by some packages for their documentation
     stdlib.cmd('sed -i s/3000/5000/ libxslt/transform.c doc/xsltproc.{1,xml}')
     configure()
 
