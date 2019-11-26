@@ -45,6 +45,10 @@ def patch_freetype():
                 },
             ],
         },
+    ],
+    build_dependencies=[
+        'sys-libs/zlib-dev',
+        'dev-libs/libpng-dev'
     ]
 )
 def build(build):
