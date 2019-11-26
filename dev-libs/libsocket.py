@@ -13,7 +13,7 @@ from stdlib.manifest import manifest
     description='''
     The ultimate socket library for C and C++.
     ''',
-    tags=['socket', 'c', 'c++'],
+    tags=['socket', 'c', 'cpp'],
     maintainer='grange_c@raven-os.org',
     licenses=[stdlib.license.License.BSD],
     upstream_url='https://dermesser.github.io/libsocket/doc/',
