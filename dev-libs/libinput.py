@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import stdlib
-from stdlib.template import autotools
+from stdlib.template import meson_ninja
 from stdlib.manifest import manifest
 
 
@@ -14,15 +14,15 @@ from stdlib.manifest import manifest
     ''',
     tags=['input', 'mouse', 'keyboard'],
     maintainer='grange_c@raven-os.org',
-    licenses=[stdlib.license.License.MIT, stdlib.license.License.CUSTOM],
-    upstream_url='https://bitmath.org/code/mtdev/',
+    licenses=[stdlib.license.License.CUSTOM],
+    upstream_url='https://www.freedesktop.org/wiki/Software/libinput/',
     kind=stdlib.kind.Kind.EFFECTIVE,
     versions_data=[
         {
-            'semver': '1.1.5',
+            'semver': '1.14.3',
             'fetch': [{
-                    'url': 'https://www.freedesktop.org/software/libinput/libinput-0.5.0.tar.xz',
-                    'sha256': '349c63d8819ddfc1a35fc8bcf352256b952ae22b1ff370fd819a16f67e801ea7',
+                    'url': 'https://www.freedesktop.org/software/libinput/libinput-1.14.3.tar.xz',
+                    'sha256': '0feb3a0589709cc1032893bfaf4c49150d5360bd9782bec888f9e4dd9044c5b7',
                 },
             ],
         },
@@ -34,4 +34,4 @@ from stdlib.manifest import manifest
     ]
 )
 def build(build):
-    return autotools.build()
+    return meson_ninja.build()
