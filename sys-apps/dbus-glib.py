@@ -4,6 +4,7 @@
 import stdlib
 from stdlib.template import autotools
 from stdlib.manifest import manifest
+from stdlib.template.configure import configure
 
 
 @manifest(
@@ -37,5 +38,6 @@ def build(build):
     packages = autotools.build()
 
     packages['dev-libs/dbus-glib'].drain('usr/lib64/dbus-bash-completion-helper')
+    packages['dev-libs/dbus-glib-doc'].drain('usr/share/gtk-doc/')
 
     return packages
