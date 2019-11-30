@@ -1,26 +1,18 @@
 #!/usr/bin/env python3.6
 # -*- coding: utf-8 -*-
 
-import os
 import stdlib
 from stdlib.template import basic
 from stdlib.manifest import manifest
 from stdlib.template.cmake import cmake
 from stdlib.template.make import make
-from stdlib.pushd import pushd
-
-
-def configure_cmake():
-    os.mkdir('build')
-    with pushd('build'):
-        cmake(folder='..')
 
 
 @manifest(
     name='libjpeg-turbo',
     category='dev-libs',
     description='''
-    The libjpeg-turbo package contains a library implementing JPEG image encoding, decoding and transcoding.
+    A JPEG image encoding, decoding and transcoding implementation, using SIMD for performance.
     ''',
     tags=['jpeg', 'dev'],
     maintainer='doom@raven-os.org',
@@ -43,7 +35,8 @@ def configure_cmake():
 )
 def build(build):
     return basic.build(
-        configure=configure_cmake,
-        compile=lambda: make(folder='build'),
-        install=lambda: make('install', folder='build')
+        build_folder='build',
+        configure=lambda: cmake('..'),
+        compile=make,
+        install=lambda: make('install')
     )
