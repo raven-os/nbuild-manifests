@@ -12,7 +12,7 @@ from stdlib.manifest import manifest
     description='''
     The NASM (Netwide Assembler) package contains an 80x86 assembler designed for portability and modularity.
     ''',
-    tags=['assembler', 'asm', 'dev'],
+    tags=['assembler', 'asm'],
     maintainer='doom@raven-os.org',
     licenses=[stdlib.license.License.BSD],
     upstream_url='https://www.nasm.us/',
