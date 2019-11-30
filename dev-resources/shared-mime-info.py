@@ -10,7 +10,7 @@ from stdlib.manifest import manifest
     name='shared-mime-info',
     category='dev-resources',
     description='''
-    The shared-mime-info package contains a MIME database.
+    A MIME database.
     ''',
     tags=['mime', 'database'],
     maintainer='doom@raven-os.org',
