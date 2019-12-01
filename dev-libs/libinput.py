@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import stdlib
+from stdlib.template.meson import meson
 from stdlib.template import meson_ninja
 from stdlib.manifest import manifest
 
@@ -28,10 +29,26 @@ from stdlib.manifest import manifest
         },
     ],
     build_dependencies=[
+        'dev-apps/ninja',
         'dev-libs/evdev-dev',
         'dev-libs/mtdev-dev',
         'sys-apps/systemd-dev',
     ]
 )
 def build(build):
-    return meson_ninja.build()
+    packages = meson_ninja.build(
+        configure=lambda: meson(
+            '-Dlibwacom=false',
+            '-Dudev-dir=/usr/lib64/udev',
+            '-Ddebug-gui=false',
+            '-Dtests=false',
+            '-Ddocumentation=false',  # We're missing Doxygen (TODO FIXME)
+        )
+    )
+
+    packages['dev-libs/libinput'].drain(
+        'usr/share/',
+        'usr/lib64/{libinput,udev}/',
+    )
+
+    return packages
