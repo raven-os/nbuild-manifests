@@ -25,7 +25,10 @@ from stdlib.template import meson_ninja
                 'sha256': '6a64f2a687f5c4f203a46fa659f43dd43d1f8b845df8d723107e8a7e6158e4ce',
             }],
         },
-    ]
+    ],
+    build_dependencies=[
+        'sys-apps/ninja',
+    ],
 )
 def build(build):
     return meson_ninja.build(
