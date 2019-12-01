@@ -7,22 +7,22 @@ from stdlib.manifest import manifest
 
 
 @manifest(
-    name='xdmcp',
+    name='libxshmfence',
     category='dev-libs',
     description='''
-    The libXdmcp package contains a library implementing the X Display Manager Control Protocol.
+    A library that exposes a event API on top of Linux futexes.
     ''',
-    tags=['dev', 'protocol', 'xorg', 'x11', 'display'],
-    maintainer='doom@raven-os.org',
-    licenses=[stdlib.license.License.CUSTOM],
+    tags=['x11', 'xorg', 'futexe', 'shm', 'shared', 'memory', 'fence'],
+    maintainer='grange_c@raven-os.org',
+    licenses=[stdlib.license.License.GPL],
     upstream_url='https://xorg.freedesktop.org/',
     kind=stdlib.kind.Kind.EFFECTIVE,
     versions_data=[
         {
-            'semver': '1.1.3',
+            'semver': '1.3.0',
             'fetch': [{
-                'url': 'https://www.x.org/pub/individual/lib/libXdmcp-1.1.3.tar.bz2',
-                'sha256': '20523b44aaa513e17c009e873ad7bbc301507a3224c232610ce2e099011c6529',
+                'url': 'https://www.x.org/archive//individual/lib/libxshmfence-1.3.tar.bz2',
+                'sha256': 'b884300d26a14961a076fbebc762a39831cb75f92bed5ccf9836345b459220c7',
             }],
         },
     ],

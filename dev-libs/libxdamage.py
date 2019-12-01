@@ -7,27 +7,29 @@ from stdlib.manifest import manifest
 
 
 @manifest(
-    name='xdmcp',
+    name='libxdamage',
     category='dev-libs',
     description='''
-    The libXdmcp package contains a library implementing the X Display Manager Control Protocol.
+    A damaged region extension library.
     ''',
-    tags=['dev', 'protocol', 'xorg', 'x11', 'display'],
-    maintainer='doom@raven-os.org',
+    tags=['x11', 'xorg', 'damage', 'region'],
+    maintainer='grange_c@raven-os.org',
     licenses=[stdlib.license.License.CUSTOM],
     upstream_url='https://xorg.freedesktop.org/',
     kind=stdlib.kind.Kind.EFFECTIVE,
     versions_data=[
         {
-            'semver': '1.1.3',
+            'semver': '1.1.5',
             'fetch': [{
-                'url': 'https://www.x.org/pub/individual/lib/libXdmcp-1.1.3.tar.bz2',
-                'sha256': '20523b44aaa513e17c009e873ad7bbc301507a3224c232610ce2e099011c6529',
+                'url': 'https://www.x.org/archive//individual/lib/libXdamage-1.1.5.tar.bz2',
+                'sha256': 'b734068643cac3b5f3d2c8279dd366b5bf28c7219d9e9d8717e1383995e0ea45',
             }],
         },
     ],
     build_dependencies=[
-        'dev-libs/xorgproto-dev',
+        'sys-libs/x11-dev',
+        'dev-libs/libxfixes-dev',
+        'sys-libs/xext-dev',
     ]
 )
 def build(build):

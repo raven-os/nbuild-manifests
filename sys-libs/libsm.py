@@ -7,27 +7,30 @@ from stdlib.manifest import manifest
 
 
 @manifest(
-    name='xdmcp',
-    category='dev-libs',
+    name='libsm',
+    category='sys-libs',
     description='''
-    The libXdmcp package contains a library implementing the X Display Manager Control Protocol.
+    A session management library for X.
     ''',
-    tags=['dev', 'protocol', 'xorg', 'x11', 'display'],
-    maintainer='doom@raven-os.org',
+    tags=['x11', 'xorg', 'sm', 'session', 'management'],
+    maintainer='grange_c@raven-os.org',
     licenses=[stdlib.license.License.CUSTOM],
     upstream_url='https://xorg.freedesktop.org/',
     kind=stdlib.kind.Kind.EFFECTIVE,
     versions_data=[
         {
-            'semver': '1.1.3',
+            'semver': '1.2.3',
             'fetch': [{
-                'url': 'https://www.x.org/pub/individual/lib/libXdmcp-1.1.3.tar.bz2',
-                'sha256': '20523b44aaa513e17c009e873ad7bbc301507a3224c232610ce2e099011c6529',
+                'url': 'https://www.x.org/archive//individual/lib/libSM-1.2.3.tar.bz2',
+                'sha256': '2d264499dcb05f56438dee12a1b4b71d76736ce7ba7aa6efbf15ebb113769cbb',
             }],
         },
     ],
     build_dependencies=[
+        'dev-libs/libice-dev',
         'dev-libs/xorgproto-dev',
+        'dev-libs/xtrans-dev',
+        'sys-apps/util-linux-dev',
     ]
 )
 def build(build):
