@@ -4,7 +4,6 @@
 import stdlib
 from stdlib.template import autotools
 from stdlib.manifest import manifest
-from stdlib.template.configure import configure
 
 
 @manifest(
