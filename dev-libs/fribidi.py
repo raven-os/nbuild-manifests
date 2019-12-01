@@ -27,7 +27,7 @@ from stdlib.template import meson_ninja
         },
     ],
     build_dependencies=[
-        'sys-apps/ninja',
+        'dev-apps/ninja',
     ],
 )
 def build(build):
