@@ -36,7 +36,8 @@ from stdlib.template.configure import configure
         'dev-libs/fontconfig-dev',
         'sys-libs/x11-dev',
         'sys-libs/xext-dev',
-        'dev-libs/xcb-dev'
+        'dev-libs/xcb-dev',
+        'dev-libs/harfbuzz-dev'
     ]
 )
 def build(build):
