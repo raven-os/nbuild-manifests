@@ -48,7 +48,8 @@ def patch_freetype():
     ],
     build_dependencies=[
         'sys-libs/zlib-dev',
-        'dev-libs/libpng-dev'
+        'dev-libs/libpng-dev',
+        'dev-libs/harfbuzz-dev'
     ]
 )
 def build(build):
