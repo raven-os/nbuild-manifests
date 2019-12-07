@@ -38,7 +38,7 @@ def build(build):
     packages = autotools.build(
         configure=lambda: configure("--with-system-expat    \
             --with-system-ffi                               \
-            --without-ensurepip &                            \
+            --without-ensurepip                             \
             --enable-unicode=ucs4                           \
             --enable-optimizations                          \
         "),
@@ -54,5 +54,6 @@ def build(build):
         # Renaming to avoid conflicts with the binaries installed by Python3
         os.rename('usr/bin/2to3', 'usr/bin/2to3-2')
         os.rename('usr/bin/idle', 'usr/bin/idle-2')
+        os.rename('usr/bin/pydoc', 'usr/bin/pydoc-2')
 
     return packages
