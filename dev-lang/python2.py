@@ -56,9 +56,10 @@ def build(build):
         # Fixes permissions for libraries to be consistent with other libraries
         for lib in glob.glob('usr/lib64/libpython{build.major}.{build.minor}.so.*.*'):
             os.chmod(lib, 0o755)
-        # Renaming to avoid conflicts with the binaries installed by Python3
+        # Fixes to avoid conflicts with what was installed by Python3
         os.rename('usr/bin/2to3', 'usr/bin/2to3-2')
         os.rename('usr/bin/idle', 'usr/bin/idle2')
         os.rename('usr/bin/pydoc', 'usr/bin/pydoc2')
+        os.unlink('usr/bin/python')
 
     return packages
