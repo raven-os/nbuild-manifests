@@ -108,15 +108,16 @@ def build(build):
     boot.requires('kernel/linux')
     boot.requires('sys-apps/grub')
     boot.requires('sys-apps/systemd')
-    boot.requires('sys-apps/feathers')
-    boot.requires('sys-apps/dmenu-wl')
-    boot.requires('ui-resources/dejavu')
-    boot.requires('sys-libs/dhcpcd')
+    boot.requires('sys-apps/dhcpcd')
     boot.depends_on(essentials)
 
     # Convenient packages to make Raven-OS smoother to use.
     boot.requires('editor/vim')  # TODO FIXME Switch to nano when packaged
     boot.requires('sys-apps/curl')
+    boot.requires('sys-apps/htop')
+    boot.requires('sys-apps/feathers')
+    boot.requires('sys-apps/dmenu-wl')
+    boot.requires('ui-resources/dejavu')
 
     return {
         essentials.id.short_name(): essentials,
