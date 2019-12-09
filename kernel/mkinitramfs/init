@@ -64,8 +64,7 @@ function do_try_resume()
 
     if $noresume || ! [ -b "$resume" ]; then return; fi
 
-    ls -lH "$resume" | ( read x x x x maj min x
-        echo -n ${maj%,}:$min > /sys/power/resume )
+    ls -lH "$resume" | ( read x x x x maj min x echo -n ${maj%,}:$min > /sys/power/resume )
 }
 
 init=/usr/bin/init
@@ -86,38 +85,46 @@ mount -n -t tmpfs    tmpfs    /run
 read -r cmdline < /proc/cmdline
 
 for param in $cmdline ; do
-  case $param in
-    init=*      ) init=${param#init=}             ;;
-    root=*      ) root=${param#root=}             ;;
-    rootdelay=* ) rootdelay=${param#rootdelay=}   ;;
-    rootfstype=*) rootfstype=${param#rootfstype=} ;;
-    rootflags=* ) rootflags=${param#rootflags=}   ;;
-    resume=*    ) resume=${param#resume=}         ;;
-    noresume    ) noresume=true                   ;;
-    ro          ) ro="ro"                         ;;
-    rw          ) ro="rw"                         ;;
-  esac
+    case $param in
+        init=*      ) init=${param#init=}             ;;
+        root=*      ) root=${param#root=}             ;;
+        rootdelay=* ) rootdelay=${param#rootdelay=}   ;;
+        rootfstype=*) rootfstype=${param#rootfstype=} ;;
+        rootflags=* ) rootflags=${param#rootflags=}   ;;
+        resume=*    ) resume=${param#resume=}         ;;
+        noresume    ) noresume=true                   ;;
+        ro          ) ro="ro"                         ;;
+        rw          ) ro="rw"                         ;;
+    esac
 done
 
 # udevd location depends on version
 if [ -x /sbin/udevd ]; then
-  UDEVD=/sbin/udevd
+    UDEVD=/sbin/udevd
 elif [ -x /lib/udev/udevd ]; then
-  UDEVD=/lib/udev/udevd
+    UDEVD=/lib/udev/udevd
 elif [ -x /lib/systemd/systemd-udevd ]; then
-  UDEVD=/lib/systemd/systemd-udevd
+    UDEVD=/lib/systemd/systemd-udevd
 else
-  echo "Cannot find udevd nor systemd-udevd"
-  problem
+    echo "Cannot find udevd nor systemd-udevd"
+    problem
 fi
 
 ${UDEVD} --daemon --resolve-names=never
 udevadm trigger
 udevadm settle
 
-if [ -f /etc/mdadm.conf ] ; then mdadm -As                       ; fi
-if [ -x /sbin/vgchange  ] ; then /sbin/vgchange -a y > /dev/null ; fi
-if [ -n "$rootdelay"    ] ; then sleep "$rootdelay"              ; fi
+if [ -f /etc/mdadm.conf ]; then
+    mdadm -As
+fi
+
+if [ -x /sbin/vgchange ]; then
+    /sbin/vgchange -a y > /dev/null
+fi
+
+if [ -n "$rootdelay" ]; then
+    sleep "$rootdelay"
+fi
 
 do_try_resume # This function will not return if resuming from disk
 do_mount_root
