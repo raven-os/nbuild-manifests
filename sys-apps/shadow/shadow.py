@@ -1,6 +1,7 @@
 #!/usr/bin/env python3.6
 # -*- coding: utf-8 -*-
 
+import os
 import textwrap
 import stdlib
 from stdlib.template import autotools
@@ -45,10 +46,21 @@ def patch_shadow():
             'fetch': [{
                     'url': 'https://github.com/shadow-maint/shadow/releases/download/4.6/shadow-4.6.tar.xz',
                     'sha256': '0998c8d84242a231ab0acb7f8613927ff5bcff095f8aa6b79478893a03f05583',
-                },
+                }, {
+                    'file': './login.defs',
+                }, {
+                    'file': './login',
+                }, {
+                    'file': './passwd',
+                }, {
+                    'file': './su',
+                }
             ],
         },
     ],
+    build_dependencies=[
+        'sys-libs/pam-dev',
+    ]
 )
 def build(build):
     packages = autotools.build(
@@ -63,6 +75,41 @@ def build(build):
     packages['sys-apps/shadow'].requires('raven-os/corefs')
     packages['sys-apps/shadow'].requires('sys-apps/bash')
     packages['sys-apps/shadow'].requires('sys-apps/coreutils')
+
+    # Override the default login.defs
+    packages['sys-apps/shadow'].drain_build_cache('./login.defs', 'etc/login.defs')
+
+    # Provide a default configuration file for PAM
+    os.makedirs(f"{packages['sys-apps/shadow'].wrap_cache}/etc/pam.d/", exist_ok=True)
+    for file in ['login', 'passwd', 'su']:
+        packages['sys-apps/shadow'].drain_build_cache(f'./{file}', f'etc/pam.d/{file}')
+
+    # Provide the same default configuration file for a bunch of utilities.
+    with stdlib.pushd(f"{packages['sys-apps/shadow'].wrap_cache}"):
+        for file in ['chage', 'chfn', 'chgpasswd', 'chpasswd',  'chsh', 'groupadd', 'groupdel', 'groupmems', 'groupmod', 'newusers', 'useradd', 'userdel', 'usermod']:
+            with open(f'etc/pam.d/{file}', 'w+') as f:
+                f.write(textwrap.dedent(f'''\
+                #
+                # Raven-OS - /etc/pam.d/{file}
+                #
+
+                # always allow root
+                auth      sufficient  pam_rootok.so
+
+                # include system auth, account, and session settings
+                auth      include     system-auth
+                account   include     system-account
+                session   include     system-session
+
+                # Always permit for authentication updates
+                password  required    pam_permit.so
+                '''))
+
+    # Those files are not useful anymore, their content is managed by systemd.
+    packages['sys-apps/shadow'].remove(
+        'etc/login.access',
+        'etc/limits',
+    )
 
     packages['sys-apps/shadow'].load_instructions('./instructions.sh')
 
