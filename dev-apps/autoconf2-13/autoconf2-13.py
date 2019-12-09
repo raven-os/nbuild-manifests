@@ -4,9 +4,7 @@
 import stdlib
 from stdlib.template import autotools
 from stdlib.manifest import manifest
-from stdlib.template.configure import configure
 from stdlib.patch import patch
-from stdlib.split.drain_all import drain_all
 
 
 def patch_autoconf():
