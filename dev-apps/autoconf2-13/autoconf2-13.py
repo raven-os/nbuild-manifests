@@ -5,6 +5,7 @@ import stdlib
 from stdlib.template import autotools
 from stdlib.manifest import manifest
 from stdlib.patch import patch
+from stdlib.template.make import make
 
 
 def patch_autoconf():
@@ -28,11 +29,11 @@ def patch_autoconf():
         {
             'semver': '2.13.5',
             'fetch': [{
-                'url': 'https://ftp.gnu.org/gnu/autoconf/autoconf-2.13.tar.gz',
-                'sha256': 'f0611136bee505811e9ca11ca7ac188ef5323a8e2ef19cffd3edb3cf08fd791e',
-            }, {
-                'file': './autoconf-2.13-consolidated_fixes-1.patch'
-            }
+                    'url': 'https://ftp.gnu.org/gnu/autoconf/autoconf-2.13.tar.gz',
+                    'sha256': 'f0611136bee505811e9ca11ca7ac188ef5323a8e2ef19cffd3edb3cf08fd791e',
+                }, {
+                    'file': './autoconf-2.13-consolidated_fixes-1.patch'
+                }
             ],
         },
     ],
@@ -42,17 +43,17 @@ def patch_autoconf():
 )
 def build(build):
     packages = autotools.build(
-        patch=lambda: patch_autoconf(),
+        patch=patch_autoconf,
         # The configure script of autoconf2-13 doesn't have all the usual flags, so we can't
         # rely on the template to help us here. A manual call is required.
         configure=lambda: stdlib.cmd("./configure --program-suffix=2.13"),
-        compile=lambda: stdlib.cmd("make"),
+        compile=make,
         install=lambda: stdlib.cmd(f"make install && \
-            install -v -m644 autoconf213.info /usr/local/share/info && \
             install-info --info-dir={build.install_cache}/usr/local/share/info autoconf213.info"),
     )
 
     packages['dev-apps/autoconf2-13'].drain('usr/local/share/autoconf-2-13/')
     packages['dev-apps/autoconf2-13'].drain('usr/local/share/info/dir')
+    packages['dev-apps/autoconf2-13'].drain_build_cache('autoconf213.info', 'usr/share/info/')
 
     return packages
