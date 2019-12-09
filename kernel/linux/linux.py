@@ -46,12 +46,18 @@ def install_linux():
             ],
         },
     ],
+    build_dependencies=[
+        'dev-apps/flex',
+        'sys-libs/openssl-dev',
+        'dev-apps/bc',
+    ]
 )
 def build(build):
 
     # TODO:
     #   - Include the configuration in /boot/
     #   - Symlink or rename vmlinuz to vmlinuz-X.Y.Z.
+    #   - Use an initramfs
 
     packages = basic.build(
         configure=lambda: make('olddefconfig'),
@@ -61,8 +67,13 @@ def build(build):
     )
 
     packages['kernel/linux'].drain(
-        'usr/lib/*',
+        'usr/lib/modules/**/*.ko',
+        'usr/lib/modules/**/modules.*',
         'boot/*',
+    )
+
+    packages['kernel/linux-dev'].drain(
+        'usr/lib/modules/**.dbg',
     )
 
     # Remove useless files
