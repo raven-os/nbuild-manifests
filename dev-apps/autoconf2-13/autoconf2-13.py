@@ -48,12 +48,9 @@ def build(build):
         # rely on the template to help us here. A manual call is required.
         configure=lambda: stdlib.cmd("./configure --program-suffix=2.13"),
         compile=make,
-        install=lambda: stdlib.cmd(f"make install && \
-            install-info --info-dir={build.install_cache}/usr/local/share/info autoconf213.info"),
     )
 
-    packages['dev-apps/autoconf2-13'].drain('usr/local/share/autoconf-2-13/')
-    packages['dev-apps/autoconf2-13'].drain('usr/local/share/info/dir')
+    packages['dev-apps/autoconf2-13'].drain('usr/local/share/autoconf-2.13/')
     packages['dev-apps/autoconf2-13'].drain_build_cache('autoconf213.info', 'usr/share/info/')
 
     return packages
