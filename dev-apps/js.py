@@ -34,7 +34,7 @@ from stdlib.manifest import manifest
         'sys-apps/which',
         'dev-lang/python2',
         'sys-libs/readline-dev',
-        'autoconf2-13'
+        'dev-apps/autoconf2-13'
     ]
 )
 def build(build):
