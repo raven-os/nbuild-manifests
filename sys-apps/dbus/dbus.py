@@ -29,23 +29,38 @@ from stdlib.manifest import manifest
     ],
     build_dependencies=[
         'sys-apps/systemd-dev',
-        'sys-libs/expat-dev'
+        'sys-libs/expat-dev',
+        'dev-libs/glib-dev',
+        'sys-apps/util-linux-dev',
+        'sys-libs/x11-dev',
     ]
 )
 def build(build):
     packages = autotools.build(
         configure=lambda: configure(
+            '--enable-user-session',
+            '--enable-systemd',
             '--disable-doxygen-docs',
             '--disable-xml-docs',
             '--docdir=/usr/share/doc/dbus',
-            '--with-console-auth-dir=/run/console',
+            '--with-dbus-user=messagebus',
+            '--with-session-socket-dir=/tmp',
+            '--with-system-pid-file=/run/dbus.pid',
+            '--with-system-socket=/run/dbus/system_bus_socket',
+            '--with-systemdsystemunitdir=/usr/lib64/systemd/system',
+            '--with-systemduserunitdir=/usr/lib64/systemd/user',
         ),
     )
+
+    # Make a keeper for /run/dbus
+    packages['sys-apps/dbus'].make_keepers('run/dbus/')
 
     # Drain common and shared files
     packages['sys-apps/dbus'].drain(
         'usr/share/',
         'usr/lib64/dbus-daemon-launch-helper',
+        'usr/lib64/systemd/',
+        'usr/lib/**/*.conf',
     )
 
     # Drain the development files laying in unusual places
@@ -61,5 +76,9 @@ def build(build):
     # Packages member of `raven-os/essentials` should explicitly state all
     # of their dependencies, including indirect ones.
     packages['sys-apps/dbus'].requires('raven-os/corefs')
+    packages['sys-apps/dbus'].requires('sys-apps/bash')
+    packages['sys-apps/dbus'].requires('sys-apps/coreutils')
+
+    packages['sys-apps/dbus'].load_instructions('./instructions.sh')
 
     return packages

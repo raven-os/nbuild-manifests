@@ -18,10 +18,16 @@ after_install() {
     useradd -M -s /usr/bin/nologin systemd-network
     useradd -M -s /usr/bin/nologin systemd-resolve
     useradd -M -s /usr/bin/nologin systemd-timesync
+
+    # Make the modifications required to make systemd-logind work
+    echo "session   required    pam_loginuid.so" >> /etc/pam.d/system-session
+    echo "session   optional    pam_systemd.so" >> /etc/pam.d/system-session
 }
 
 before_remove() {
-    :
+    # Remove the above modifications
+    sed '/session   required    pam_loginuid.so/d' -i /etc/pam.d/system-session
+    sed '/session   optional    pam_systemd.so/d' -i /etc/pam.d/system-session
 }
 
 after_remove() {

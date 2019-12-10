@@ -4,11 +4,14 @@
 import os
 import glob
 import stdlib
+import textwrap
 import stdlib.patch
 import stdlib.split.system
 import stdlib.deplinker.elf
 from stdlib.split.drain_all import drain_all_with_doc
-from stdlib.template import basic
+from stdlib.template.ninja import ninja_test
+from stdlib.template.meson import meson
+from stdlib.template import meson_ninja
 from stdlib.manifest import manifest
 
 
@@ -20,11 +23,11 @@ def extract_systemd():
 def patch_systemd():
     stdlib.patch.patch_all()
 
-    # Remove tests that cannot be built in chroot
-    stdlib.cmd("sed '177,$ d' -i src/resolve/meson.build")
+    # Fix an incompatibility with the latest version of libseccomp:
+    stdlib.cmd(r"""sed -i '1506,1508 s/</>/' src/shared/seccomp-util.c""")
 
     # Remove an unneeded group, render, from the default udev rules:
-    stdlib.cmd("""sed -i 's/GROUP="render", //' rules/50-udev-default.rules.in""")
+    stdlib.cmd(r"""sed -i 's/GROUP="render", //' rules/50-udev-default.rules.in""")
 
 
 def split_systemd():
@@ -38,6 +41,8 @@ def split_systemd():
     packages['sys-apps/systemd'].drain_package(
         packages['sys-apps/systemd-dev'],
         'usr/lib64/systemd/libsystemd-shared-*.so',
+        'usr/lib/systemd/*.so',
+        'usr/lib64/security/*.so',
     )
 
     return packages
@@ -69,42 +74,77 @@ def split_systemd():
             ],
         },
     ],
+    build_dependencies=[
+        'kernel/linux-dev',
+        'dev-apps/ninja',
+        'dev-libs/glib-dev',
+        'dev-libs/libxkbcommon-dev',
+        'dev-libs/pcre-dev',
+        'sys-apps/dbus-dev',
+        'sys-apps/shadow-dev',
+        'sys-apps/bzip2-dev',
+        'sys-apps/xz-dev',
+        'sys-apps/util-linux-dev',
+        'sys-apps/acl-dev',
+        'sys-apps/kmod-dev',
+        'sys-apps/curl-dev',
+        'sys-libs/gperf',
+        'sys-libs/pam-dev',
+        'sys-libs/libcap-dev',
+        'sys-libs/openssl-dev',
+        'sys-libs/zlib-dev',
+    ],
 )
 def build(build):
-
-    os.environ['PKG_CONFIG_PATH'] = '/usr/lib/pkgconfig:/tools/lib/pkgconfig'  # TODO FIXME
-    os.environ['LANG'] = 'en_US.UTF-8'
-
-    packages = basic.build(
+    packages = meson_ninja.build(
         build_folder='build',
         extract=extract_systemd,
         patch=patch_systemd,
-        configure=lambda: stdlib.cmd('''meson \
-            --prefix=/usr                   \
-            --sysconfdir=/etc               \
-            --localstatedir=/var            \
-            -Dblkid=true                    \
-            -Dbuildtype=release             \
-            -Ddefault-dnssec=no             \
-            -Dfirstboot=false               \
-            -Dinstall-tests=false           \
-            -Dkmod-path=/usr/bin/kmod       \
-            -Dldconfig=false                \
-            -Dmount-path=/usr/bin/mount     \
-            -Drootprefix=                   \
-            -Drootlibdir=/usr/lib           \
-            -Dsplit-usr=true                \
-            -Dsulogin-path=/usr/bin/sulogin \
-            -Dsysusers=false                \
-            -Dumount-path=/usr/bin/umount   \
-            -Db_lto=false                   \
-            -Drpmmacrosdir=no               \
-            ..
-        '''),
-        compile=lambda: stdlib.cmd('ninja'),
-        install=lambda: stdlib.cmd('ninja install'),
+        configure=lambda: meson(
+            '-Dblkid=true',
+            '-Ddefault-dnssec=no',
+            '-Dfirstboot=false',
+            '-Dinstall-tests=false',
+            '-Dkmod-path=/usr/bin/kmod',
+            '-Dldconfig=false',
+            '-Dmount-path=/usr/bin/mount',
+            '-Drootprefix=',
+            '-Drootlibdir=/usr/lib64',
+            '-Dsulogin-path=/usr/bin/sulogin',
+            '-Dsysusers=false',
+            '-Dumount-path=/usr/bin/umount',
+            '-Db_lto=false',
+            '-Drpmmacrosdir=no',
+            '-Dgnutls=false',
+            '..',
+        ),
+        check=lambda: ninja_test(fail_ok=True),
         split=split_systemd,
     )
+
+    # Write a default configuration file for PAM
+    with stdlib.pushd(packages['sys-apps/systemd'].wrap_cache):
+        os.makedirs('etc/pam.d/', exist_ok=True)
+
+        with open('etc/pam.d/systemd-user', 'w+') as other:
+            other.write(textwrap.dedent('''\
+            #
+            # Raven-OS - /etc/pam.d/systemd-user
+            #
+
+            account  required    pam_access.so
+            account  include     system-account
+
+            session  required    pam_env.so
+            session  required    pam_limits.so
+            session  required    pam_unix.so
+            session  required    pam_loginuid.so
+            session  optional    pam_keyinit.so force revoke
+            session  optional    pam_systemd.so
+
+            auth     required    pam_deny.so
+            password required    pam_deny.so
+            '''))
 
     # Packages member of `raven-os/essentials` should explicitly state all
     # of their dependencies, including indirect ones.
@@ -112,6 +152,7 @@ def build(build):
     packages['sys-apps/systemd'].requires('sys-apps/shadow')
     packages['sys-apps/systemd'].requires('sys-apps/bash')
     packages['sys-apps/systemd'].requires('sys-apps/coreutils')
+    packages['sys-apps/systemd'].requires('sys-apps/sed')
 
     packages['sys-apps/systemd'].load_instructions('./instructions.sh')
 
