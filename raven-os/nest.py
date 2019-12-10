@@ -18,20 +18,21 @@ from stdlib.split.drain_all import drain_all_with_doc
     tags=['nest', 'package', 'manager', 'raven', 'raven-os'],
     maintainer='grange_c@raven-os.org',
     licenses=[],
-    upstream_url='https://www.rust-lang.org/',
+    upstream_url='https://github.com/raven-os/nest',
     kind=stdlib.kind.Kind.EFFECTIVE,
     versions_data=[
         {
-            'semver': '0.0.216',
+            'semver': '0.0.219',
             'fetch': [{
                 'git': 'https://github.com/raven-os/nest.git',
-                'commit': 'd2d2d4b9cbb729172b94d2214bb2a18e0c918ec3',
+                'commit': '0a7f596afb71ee01ebc6471982a3dc122a5146e4',
             }]
         },
     ],
     build_dependencies=[
         'dev-lang/rust',
         'sys-libs/openssl-dev',
+        'sys-apps/curl-dev',
     ],
 )
 def build(build):
