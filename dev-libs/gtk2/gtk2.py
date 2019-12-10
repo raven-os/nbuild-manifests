@@ -12,7 +12,8 @@ def split_gtk():
 
     packages['dev-libs/gtk2'].drain_package(
         packages['dev-libs/gtk2-dev'],
-        'usr/lib64/gtk-2.0/2.10.0/**/*.so'
+        'usr/lib64/gtk-2.0/2.10.0/**/*.so',
+        'usr/lib64/gtk-2.0/modules/*.so',
     )
 
     packages['dev-libs/gtk2'].drain(
