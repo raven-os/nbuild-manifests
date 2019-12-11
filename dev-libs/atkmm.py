@@ -12,7 +12,7 @@ from stdlib.manifest import manifest
     description='''
     C++ bindings for ATK.
     ''',
-    tags=['atk', 'c++', 'bindings'],
+    tags=['atk', 'cpp', 'bindings'],
     maintainer='doom@raven-os.org',
     licenses=[stdlib.license.License.LGPL],
     upstream_url='https://www.gtkmm.org/',
@@ -30,13 +30,14 @@ from stdlib.manifest import manifest
         'dev-libs/glib-dev',
         'dev-libs/glibmm-dev',
         'dev-libs/atk-dev',
+        'dev-libs/libsigc++-dev',
     ]
 )
 def build(build):
     packages = autotools.build()
 
     packages['dev-libs/atkmm-dev'].drain(
-        'usr/lib64/atkmm-1.6/{include,proc}'
+        'usr/lib64/atkmm-*/{include,proc}'
     )
 
     return packages
