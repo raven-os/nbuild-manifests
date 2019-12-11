@@ -33,10 +33,10 @@ def install_rust():
     kind=stdlib.kind.Kind.EFFECTIVE,
     versions_data=[
         {
-            'semver': '1.40.0',  # TODO: Point to stable Rust instead
+            'semver': '1.41.0',  # TODO: Point to stable Rust instead
             'fetch': [{
                 'url': 'https://static.rust-lang.org/dist/rust-nightly-x86_64-unknown-linux-gnu.tar.gz',
-                'sha256': '5ffbef3dbcfd5fe488eaebcb0e686d21e279dfea97fb4fe1c1f41944a57bd8f0',  # TODO: This sha isn't useful, as this is a nightly build
+                'sha256': '37c557e58e34455b78134b8d5e0ae7311848f5e6d9d542f451c1945cdc66ac56',  # TODO: This sha isn't useful, as this is a nightly build
             }]
         },
     ],
