@@ -22,10 +22,10 @@ from stdlib.split.drain_all import drain_all_with_doc
     kind=stdlib.kind.Kind.EFFECTIVE,
     versions_data=[
         {
-            'semver': '0.0.219',
+            'semver': '0.0.220',
             'fetch': [{
                 'git': 'https://github.com/raven-os/nest.git',
-                'commit': '0a7f596afb71ee01ebc6471982a3dc122a5146e4',
+                'commit': '597dac58073ffac2051a0b110645d3b50ec5ff72',
             }]
         },
     ],
