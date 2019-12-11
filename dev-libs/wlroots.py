@@ -23,7 +23,7 @@ from stdlib.manifest import manifest
             'fetch': [{
                     # FIXME TODO: We require a specific commit because of Feathers. Ideally, we'd want to get rid of that.
                     'git': 'https://github.com/swaywm/wlroots.git',
-                    'commit': '8681e4ab8a2d4c95abd34abf0e0eed3351d11bf0',
+                    'commit': 'e97c2c3639119831ced4f6b9f704b096c2075973',
                 },
             ],
         },

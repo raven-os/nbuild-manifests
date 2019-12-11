@@ -25,7 +25,7 @@ from stdlib.manifest import manifest
             'semver': '0.0.220',
             'fetch': [{
                     'git': 'https://github.com/raven-os/feathers.git',
-                    'commit': 'c9d609529450fa92af2391931ef9e20de0b3bc60',
+                    'commit': '2372cc20ea08387f5e4dcc8c4eb7147597e8b551',
                 },
             ],
         },
@@ -48,6 +48,7 @@ from stdlib.manifest import manifest
 def build(build):
     return autotools.build(
         build_folder='build',
+        patch=lambda: stdlib.cmd('sed "s/Supscription/Subscription/g" -i source/conf/*.cpp'),
         configure=lambda: cmake('..'),
         split=drain_all_with_doc,
     )
