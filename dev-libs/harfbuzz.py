@@ -40,6 +40,10 @@ def build(build):
         configure=lambda: configure('--with-gobject --with-graphite2')
     )
 
+    packages['dev-libs/harfbuzz'].drain(
+        'usr/lib64/girepository-*/*.typelib',
+    )
+
     packages['dev-libs/harfbuzz-dev'].drain(
         'usr/lib64/cmake/harfbuzz/*.cmake',
         'usr/share/gir-1.0/*.gir'

@@ -50,6 +50,10 @@ def build(build):
         check=lambda: ninja_test(fail_ok=True),
     )
 
+    packages['dev-libs/pango'].drain(
+        'usr/lib64/girepository-*/*.typelib',
+    )
+
     packages['dev-libs/pango-dev'].drain(
         'usr/share/**/*.gir',
     )

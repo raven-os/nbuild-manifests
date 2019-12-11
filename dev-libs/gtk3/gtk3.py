@@ -17,6 +17,7 @@ def split_gtk():
         'usr/share/themes/',
         'usr/share/gettext/',
         'usr/share/gtk-3.0/',
+        'usr/lib64/girepository-*/*.typelib',
     )
 
     packages['dev-libs/gtk3-dev'].drain(
@@ -73,6 +74,8 @@ def split_gtk():
         'dev-libs/libxrender-dev',
         'sys-libs/xext-dev',
         'dev-resources/shared-mime-info',
+        'sys-apps/util-linux-dev',
+        'dev-libs/libxinerama-dev',
         'dev-libs/glib-dev',
         'dev-libs/harfbuzz-dev',
         'dev-libs/cairo-dev',
@@ -83,6 +86,10 @@ def split_gtk():
         'dev-libs/wayland-protocols',
         'dev-resources/iso-codes',
         'dev-libs/libxslt',
+        'dev-libs/libdrm-dev',
+        'sys-libs/pixman-dev',
+        'sys-apps/dbus-dev',
+        'dev-libs/at-spi2-core-dev',
         'sys-libs/mesa-dev',
         'dev-libs/fribidi-dev',
         'dev-apps/ninja',

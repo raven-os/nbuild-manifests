@@ -10,6 +10,10 @@ from stdlib.split.system import system
 def split_gdk_pixbuf():
     packages = system()
 
+    packages['dev-libs/gdk-pixbuf'].drain(
+        'usr/lib64/girepository-*/*.typelib',
+    )
+
     packages['dev-libs/gdk-pixbuf'].drain_package(
         packages['dev-libs/gdk-pixbuf-dev'],
         "usr/lib64/gdk-pixbuf-2.0/2.10.0/loaders/",

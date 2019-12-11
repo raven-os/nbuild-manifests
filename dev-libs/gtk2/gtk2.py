@@ -7,6 +7,12 @@ from stdlib.template import autotools
 from stdlib.split.system import system
 
 
+def patch_gtk2():
+    stdlib.patch.patch_all()
+
+    stdlib.cmd("sed -e 's#l \\(gtk-.*\\).sgml#& -o \\1#' -i docs/{faq,tutorial}/Makefile.in"),
+
+
 def split_gtk():
     packages = system()
 
@@ -17,12 +23,17 @@ def split_gtk():
     )
 
     packages['dev-libs/gtk2'].drain(
-        'usr/share/themes/'
+        'usr/share/themes/',
+        'usr/lib64/girepository-*/*.typelib',
     )
 
     packages['dev-libs/gtk2-dev'].drain(
         'usr/share/gir-1.0/*.gir',
         'usr/lib64/gtk-2.0/include/'
+    )
+
+    packages['dev-libs/gtk2'].remove(
+        'usr/bin/gtk-update-icon-cache',  # Already provided by gtk3
     )
 
     return packages
@@ -70,7 +81,7 @@ def split_gtk():
 )
 def build(build):
     packages = autotools.build(
-        patch=lambda: stdlib.cmd("sed -e 's#l \\(gtk-.*\\).sgml#& -o \\1#' -i docs/{faq,tutorial}/Makefile.in"),
+        patch=patch_gtk2,
         check=None,  # tests attempt to open an X window
         split=split_gtk,
     )
