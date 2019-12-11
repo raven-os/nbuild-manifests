@@ -38,21 +38,17 @@ from stdlib.manifest import manifest
     ]
 )
 def build(build):
+    os.environ['SHELL'] = '/bin/bash'
+
     packages = autotools.build(
-        # export SHELL is required because we're building the package in the chroot environment
-        configure=lambda: stdlib.cmd("SHELL=/bin/bash && export SHELL &&\
-            mkdir mozjs-build &&                                        \
-            cd mozjs-build &&                                           \
-            ../js/src/configure --prefix=/usr                           \
+        build_folder='mozjs-build',
+        configure=lambda: stdlib.cmd(f"../js/src/configure --prefix=/usr\
             --with-intl-api                                             \
             --with-system-zlib                                          \
             --with-system-icu                                           \
             --disable-jemalloc                                          \
             --enable-readline                                           \
         "),
-        compile=lambda: stdlib.cmd("SHELL=/bin/bash && export SHELL &&\
-            cd mozjs-build && make"),
-        install=lambda: stdlib.cmd("cd mozjs-build && make install")
     )
 
     packages['dev-apps/js-dev'].drain('usr/lib/libjs_static.ajs')
