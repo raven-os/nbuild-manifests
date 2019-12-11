@@ -197,6 +197,8 @@ def build(build):
     # of their dependencies, including indirect ones.
     packages['sys-libs/glibc'].requires('raven-os/corefs')
 
+    # TODO FIXME Provide a default /etc/localtime
+
     # Glibc depends on the Linux Kernel headers to compile software properly.
     packages['sys-libs/glibc-dev'].requires('kernel/linux-dev', '>=3.2')
 

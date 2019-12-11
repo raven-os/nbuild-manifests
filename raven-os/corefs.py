@@ -118,19 +118,21 @@ def build(build):
         # Write a default etc/passwd
         with open('etc/passwd', 'w+') as passwd:
             passwd.write(dedent('''\
-            root:x:0:0:root:/root:/bin/bash
-            nobody:x:65534:65534:nobody:/var/empty:/bin/false
+            root:x:0:0:root:/root:/usr/bin/bash
+            bin:x:1:1:bin:/dev/null:/usr/bin/false
+            daemon:x:6:6:Daemon User:/dev/null:/usr/bin/false
+            nobody:x:65534:65534:nobody:/var/empty:/usr/bin/false
             '''))
 
         # Write a default etc/group
         with open('etc/group', 'w+') as group:
             group.write(dedent('''\
             root:x:0:
-            bin:x:1:
+            bin:x:1:daemon
             sys:x:2:
             kmem:x:3:
-            tty:x:4:
-            tape:x:5:
+            tape:x:4:
+            tty:x:5:
             daemon:x:6:
             floppy:x:7:
             disk:x:8:
@@ -140,7 +142,13 @@ def build(build):
             video:x:12:
             utmp:x:13:
             usb:x:14:
-            wheel:x:15:
+            cdrom:x:15:
+            adm:x:16:
+            input:x:17:
+            mail:x:18:
+            kvm:x:19:
+            wheel:x:20:
+            nogroup:x:21:
             users:x:999:
             '''))
 

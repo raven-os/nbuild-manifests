@@ -42,7 +42,6 @@ def build(build):
         '--enable-symlinks',
         '--enable-colorfgbg',
         '--enable-pc-files',
-        '--program-prefix=',  # Removes the $ARCH prefix ncurses's configure script automatically adds to the generated binaries
     ]
 
     # Ncurses
@@ -95,6 +94,12 @@ def build(build):
             *common_conf,
         ),
     )
+
+    # Create the libtinfo symlinks required by some binaries
+    #   TODO FIXME : Find a better solution to this... When we won't be rushing the beta!
+    packages['sys-libs/ncurses-dev'].make_symlink('libncurses.so', 'usr/lib64/libtinfo.so')
+    packages['sys-libs/ncurses'].make_symlink(f'libncurses.so.{build.major}', f'usr/lib64/libtinfo.so.{build.major}')
+    packages['sys-libs/ncurses'].make_symlink(f'libncurses.so.{build.major}.{build.minor}', f'usr/lib64/libtinfo.so.{build.major}.{build.minor}')
 
     packages['sys-libs/ncurses'].drain(
         'usr/share/terminfo/',
