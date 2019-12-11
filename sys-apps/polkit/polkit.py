@@ -11,6 +11,7 @@ from stdlib.manifest import manifest
 
 
 def patch_polkit():
+    # There should be a dedicated user and group to take control of the polkitd daemon after it's started
     stdlib.cmd("groupadd -fg 27 polkitd &&                          \
         useradd -c 'PolicyKit Daemon Owner' -d /etc/polkit-1 -u 27  \
         -g polkitd -s /bin/false polkitd &&                         \
