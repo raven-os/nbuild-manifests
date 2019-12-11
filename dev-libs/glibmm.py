@@ -12,7 +12,7 @@ from stdlib.manifest import manifest
     description='''
     C++ bindings for GLib.
     ''',
-    tags=['glib', 'c++', 'bindings'],
+    tags=['glib', 'cpp', 'bindings'],
     maintainer='doom@raven-os.org',
     licenses=[stdlib.license.License.LGPL],
     upstream_url='https://www.gtkmm.org/',
@@ -36,9 +36,9 @@ def build(build):
     packages = autotools.build()
 
     packages['dev-libs/glibmm-dev'].drain(
-        'usr/lib64/glibmm-2.4/include/glibmmconfig.h',
-        'usr/lib64/glibmm-2.4/proc/',
-        'usr/lib64/giomm-2.4/include/giommconfig.h',
+        'usr/lib64/glibmm-*/include/glibmmconfig.h',
+        'usr/lib64/glibmm-*/proc/',
+        'usr/lib64/giomm-*/include/giommconfig.h',
     )
 
     return packages
