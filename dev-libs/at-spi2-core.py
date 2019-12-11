@@ -46,8 +46,8 @@ def build(build):
 
     packages['dev-libs/at-spi2-core'].drain(
         'usr/share/{defaults,dbus-1}/',
-        'usr/lib64/{at-spi-bus-launcher,at-spi2-registryd}',
-        'usr/lib/systemd'
+        'usr/lib64/{at-spi-bus-launcher,at-spi2-registryd,girepository-*}',
+        'usr/lib/systemd',
     )
 
     packages['dev-libs/at-spi2-core-dev'].drain(

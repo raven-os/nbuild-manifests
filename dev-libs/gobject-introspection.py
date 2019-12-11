@@ -6,6 +6,27 @@ from stdlib.manifest import manifest
 from stdlib.template import meson_ninja
 
 
+def split_gobject_introspection():
+    packages = stdlib.split.system.system()
+
+    packages['dev-libs/gobject-introspection'].drain(
+        'usr/lib64/girepository-*/*.typelib',
+        'usr/lib64/gobject-introspection/giscanner/',
+        'usr/share/gir-1.0/',
+    )
+
+    packages['dev-libs/gobject-introspection'].drain_package(
+        packages['dev-libs/gobject-introspection-dev'],
+        'usr/lib64/gobject-introspection/giscanner/*.so',
+    )
+
+    packages['dev-libs/gobject-introspection-dev'].drain(
+        'usr/share/gobject-introspection-*/',
+    )
+
+    return packages
+
+
 @manifest(
     name='gobject-introspection',
     category='dev-libs',
@@ -29,21 +50,12 @@ from stdlib.template import meson_ninja
     build_dependencies=[
         'dev-apps/flex-dev',
         'dev-libs/glib-dev',
-        'dev-apps/ninja'
+        'dev-apps/ninja',
+        'sys-apps/util-linux-dev',
     ]
 )
 def build(build):
-    packages = meson_ninja.build(
+    return meson_ninja.build(
         build_folder='build',
+        split=split_gobject_introspection,
     )
-
-    packages['dev-libs/gobject-introspection-doc'].drain(
-        'usr/lib64/gobject-introspection/giscanner/doctemplates/'
-    )
-
-    packages['dev-libs/gobject-introspection-dev'].drain(
-        'usr/share/{gir,gobject-introspection}-1.0',
-        'usr/lib64/gobject-introspection/giscanner/*.py'
-    )
-
-    return packages

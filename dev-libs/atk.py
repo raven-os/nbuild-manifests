@@ -37,6 +37,10 @@ def build(build):
         build_folder='build',
     )
 
+    packages['dev-libs/atk'].drain(
+        'usr/lib64/girepository-*/*.typelib',
+    )
+
     packages['dev-libs/atk-dev'].drain(
         'usr/share/gir-1.0'
     )
