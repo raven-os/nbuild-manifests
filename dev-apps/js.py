@@ -12,9 +12,9 @@ from stdlib.manifest import manifest
     name='js',
     category='dev-apps',
     description='''
-    JavaScript interpreter and libraries - Version 60.
+    JavaScript interpreter and libraries.
     ''',
-    tags=['JavaScript', 'Mozilla', 'JS'],
+    tags=['javascript', 'mozilla', 'js', 'interpreter'],
     maintainer='dorian.trubelle@epitech.eu',
     licenses=[stdlib.license.License.MOZILLA],
     upstream_url='https://developer.mozilla.org/en-US/docs/Mozilla/Projects/SpiderMonkey',
