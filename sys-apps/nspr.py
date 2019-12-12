@@ -42,9 +42,10 @@ def split_nspr():
 )
 def build(build):
     packages = autotools.build(
-        configure=lambda: configure('--with-mozilla',
-                                    '--with-pthreads',
-                                    '--enable-64bit'),
+        configure=lambda: configure(
+            '--with-mozilla',
+            '--with-pthreads',
+            '--enable-64bit'),
         split=split_nspr
     )
 
