@@ -43,9 +43,10 @@ from stdlib.manifest import manifest
 )
 def build(build):
     packages = autotools.build(
-        configure=lambda: configure('--with-os-type=Raven-OS',
-                                    '--enable-libsystemd-login=yes',
-                                    '--disable-man-pages')
+        configure=lambda: configure(
+            '--with-os-type=Raven-OS',
+            '--enable-libsystemd-login=yes',
+            '--disable-man-pages')
     )
 
     packages['sys-apps/polkit-dev'].drain('usr/lib64/')
