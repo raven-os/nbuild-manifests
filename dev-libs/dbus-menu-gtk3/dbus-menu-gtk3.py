@@ -71,11 +71,11 @@ def build(build):
         'usr/lib64/dbusmenu-dumper',
         'usr/lib64/dbusmenu-bench',
         'usr/lib64/dbusmenu-testapp',
+        'usr/lib64/girepository-1.0',
     )
 
     packages['dev-libs/dbus-menu-gtk3-dev'].drain(
         'usr/share/gir-1.0/*.gir',
-        'usr/lib64/girepository-1.0',
     )
 
     packages['dev-libs/dbus-menu-gtk3-doc'].drain(
