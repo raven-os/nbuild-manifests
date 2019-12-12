@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
 after_install() {
-    groupadd -fg 27 polkitd
-    useradd -c 'PolicyKit Daemon Owner' -d /etc/polkit-1 -u 27 -g polkitd -s /bin/false polkitd
+    groupadd -f polkitd
+    useradd -c 'PolicyKit Daemon Owner' -d /etc/polkit-1 -g polkitd -s /bin/false polkitd
 }

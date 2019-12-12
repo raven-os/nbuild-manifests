@@ -3,11 +3,28 @@
 
 import os
 import stdlib
-import stdlib.split.drain_all
 from stdlib.template import autotools
 from stdlib.template.configure import configure
-from stdlib.patch import patch
 from stdlib.manifest import manifest
+from stdlib.split.system import system
+
+
+def split_polkit():
+    packages = system()
+
+    packages['sys-apps/polkit-dev'].drain(
+        'usr/lib64/',
+        'usr/lib/'
+        )
+    packages['sys-apps/polkit-dev'].drain_package(
+        packages['sys-apps/polkit'],
+        'usr/lib64/libpolkit-gobject-1.so.0',
+        'usr/lib64/libpolkit-agent-1.so.0'
+    )
+    packages['sys-apps/polkit'].drain(
+        'usr/share/'
+    )
+    return packages
 
 
 @manifest(
@@ -46,12 +63,9 @@ def build(build):
         configure=lambda: configure(
             '--with-os-type=Raven-OS',
             '--enable-libsystemd-login=yes',
-            '--disable-man-pages')
+            '--disable-man-pages'),
+        split=split_polkit
     )
-
-    packages['sys-apps/polkit-dev'].drain('usr/lib64/')
-    packages['sys-apps/polkit-dev'].drain('usr/lib/')
-    packages['sys-apps/polkit'].drain('usr/share/')
 
     packages['sys-apps/polkit'].load_instructions('./instructions.sh')
 
