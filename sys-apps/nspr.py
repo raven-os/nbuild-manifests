@@ -6,13 +6,24 @@ from stdlib.template import autotools
 from stdlib.manifest import manifest
 from stdlib.template.configure import configure
 from stdlib.template.make import make
+from stdlib.split.system import system
+
+
+def split_nspr():
+    packages = system()
+
+    packages['sys-apps/nspr'].drain_package(
+        packages['sys-apps/nspr-dev'],
+        'usr/lib64/*.so'
+    )
+    return packages
 
 
 @manifest(
     name='nspr',
     category='sys-apps',
     description='''
-    A platform-neutral API for system level and lic like functions.
+    A platform-neutral API for system level and libc like functions.
     ''',
     tags=['nspr', 'api', 'mozilla'],
     maintainer='dorian.trubelle@epitech.eu',
@@ -31,11 +42,10 @@ from stdlib.template.make import make
 )
 def build(build):
     packages = autotools.build(
-        build_folder='nspr',
-        configure=lambda: stdlib.cmd('../configure --prefix=/usr                \
-                            --with-mozilla                                      \
-                            --with-pthreads                                     \
-                            $([ $(uname -m) = x86_64 ] && echo --enable-64bit)'),
+        configure=lambda: configure('--with-mozilla',
+                                    '--with-pthreads',
+                                    '--enable-64bit'),
+        split=split_nspr
     )
 
     return packages
