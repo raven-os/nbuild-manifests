@@ -38,9 +38,4 @@ def build(build):
                             $([ $(uname -m) = x86_64 ] && echo --enable-64bit)'),
     )
 
-    with stdlib.pushd(packages['sys-apps/nspr-dev'].wrap_cache):
-        packages['sys-apps/nspr'].drain(f'usr/lib/libplds4.so')
-        packages['sys-apps/nspr'].drain(f'usr/lib/libplc4.so')
-        packages['sys-apps/nspr'].drain(f'usr/lib/libnspr4.so')
-
     return packages
