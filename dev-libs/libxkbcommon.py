@@ -33,4 +33,8 @@ from stdlib.manifest import manifest
     ]
 )
 def build(build):
-    return autotools.build()
+    packages = autotools.build()
+
+    packages['dev-libs/libxkbcommon'].requires('dev-resources/xkeyboard-config')
+
+    return packages
